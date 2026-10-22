@@ -1,90 +1,63 @@
 // ============================================================
-// Salesforce Certified Data 360 Consultant Exam Simulator
-// Application Engine — 6 Official Blueprint Domains & Mastery Tracking
+// Data 360 Consultant Exam Simulator — Core Application Logic
+// Identical architecture and UI to Agentforce Specialist
+// Dual-Shuffle Engine: Fisher-Yates global + per-question option shuffle
 // ============================================================
 
 "use strict";
 
-// Resolve EXAM_DOMAINS from global or fallback definition
-const DOMAINS_CONFIG = (typeof window !== "undefined" && window.EXAM_DOMAINS) || {
-  solution_positioning: {
-    id: "solution_positioning",
-    name: "Solution Positioning",
-    weight: 14,
-    colorToken: "slate",
-    topics: ["Terminology & Business Value", "Generative & Predictive AI Role", "Initial Use Cases", "Data Ethics & Governance"]
-  },
-  setup_and_administration: {
-    id: "setup_and_administration",
-    name: "Data 360 Setup and Administration",
-    weight: 13,
-    colorToken: "slate",
-    topics: ["Permissions & Permission Sets", "Org-Wide Settings & Data Governance", "ALM & Development Tooling", "Troubleshooting & Diagnostics"]
-  },
-  connection_and_ingestion: {
-    id: "connection_and_ingestion",
-    name: "Data Source Connection and Ingestion",
-    weight: 18,
-    colorToken: "slate",
-    topics: ["Data Transformations", "Ingestion Processes & Considerations", "Data Collaboration & Zero-Copy"]
-  },
-  harmonization_and_unification: {
-    id: "harmonization_and_unification",
-    name: "Harmonization and Unification",
-    weight: 17,
-    colorToken: "slate",
-    topics: ["Unification Purpose & Processes", "Data Modeling & DMO Mapping"]
-  },
-  enhancements_sharing_analysis: {
-    id: "enhancements_sharing_analysis",
-    name: "Data Enhancements, Sharing, and Analysis",
-    weight: 18,
-    colorToken: "slate",
-    topics: ["Calculated Insights & Unified Data", "External System Data Sharing", "Reports & Dashboards", "AI Tooling Scenarios"]
-  },
-  activations_and_utilization: {
-    id: "activations_and_utilization",
-    name: "Data Activations and Utilization",
-    weight: 20,
-    colorToken: "slate",
-    topics: ["Segmentation Concepts & Use Cases", "Segment Management", "Publishing Activations", "Actioning Data & Salesforce Flows"]
-  }
+// ---------- Category Constants (6 Official Exam Domains) ----------
+const CATEGORIES = {
+  POSITIONING: "Solution Positioning",
+  SETUP_ADMIN: "Data 360 Setup and Administration",
+  INGESTION: "Data Source Connection and Ingestion",
+  HARMONIZATION: "Harmonization and Unification",
+  ENHANCEMENTS: "Data Enhancements, Sharing, and Analysis",
+  ACTIVATIONS: "Data Activations and Utilization"
 };
 
-// Domain Navigation Items Definition
-const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard & Mastery", icon: "📊", isDomain: false },
-  { id: "all", label: "All Questions (Full Bank)", icon: "⚡", isDomain: false },
-  { id: "solution_positioning", label: "Solution Positioning", icon: "🧭", isDomain: true },
-  { id: "setup_and_administration", label: "Setup & Administration", icon: "⚙️", isDomain: true },
-  { id: "connection_and_ingestion", label: "Connection & Ingestion", icon: "📥", isDomain: true },
-  { id: "harmonization_and_unification", label: "Harmonization & Unification", icon: "🧩", isDomain: true },
-  { id: "enhancements_sharing_analysis", label: "Enhancements & Analysis", icon: "📈", isDomain: true },
-  { id: "activations_and_utilization", label: "Activations & Utilization", icon: "🎯", isDomain: true },
-  { id: "bookmarks", label: "Bookmarked Deck", icon: "⭐", isDomain: false }
+// ---------- Category Exam Weights ----------
+const CATEGORY_WEIGHTS = {
+  [CATEGORIES.POSITIONING]: "14%",
+  [CATEGORIES.SETUP_ADMIN]: "13%",
+  [CATEGORIES.INGESTION]: "18%",
+  [CATEGORIES.HARMONIZATION]: "17%",
+  [CATEGORIES.ENHANCEMENTS]: "18%",
+  [CATEGORIES.ACTIVATIONS]: "20%"
+};
+
+// ---------- Category to Tab Mapping ----------
+// Tab 0 = Dashboard, Tabs 1-6 = Categories, Tab 7 = Full Simulator
+const TAB_CATEGORIES = [
+  null,                       // Tab 0: Dashboard
+  CATEGORIES.POSITIONING,     // Tab 1
+  CATEGORIES.SETUP_ADMIN,     // Tab 2
+  CATEGORIES.INGESTION,       // Tab 3
+  CATEGORIES.HARMONIZATION,   // Tab 4
+  CATEGORIES.ENHANCEMENTS,    // Tab 5
+  CATEGORIES.ACTIVATIONS,     // Tab 6
+  null                        // Tab 7: Full Simulator
 ];
 
-// Application State
+// ---------- Global State ----------
 const state = {
-  questions: [],             // All 95 audited question objects
-  activeNavId: "dashboard",  // Current view ID
-  activeFilter: "all",       // "all" | "unanswered" | "answered" | "correct" | "incorrect" | "bookmarked"
-  searchQuery: "",
-  mode: "study",             // "study" | "exam"
-  userAnswers: {},           // { [qId]: string[] }
-  revealedExplanations: {},  // { [qId]: boolean }
-  bookmarked: {},            // { [qId]: boolean }
-  proportionalExamIds: null, // array of 60 IDs if running proportional simulation
-  shuffledOrder: null,       // custom shuffle array
+  questions: [],          // Parsed questions array
+  activeTab: 0,
+  mode: "study",          // "study" | "exam"
+  answers: {},            // { questionId: [selectedTexts] }
+  submitted: {},          // { questionId: true }
+  shuffleMap: {},         // { questionId: [shuffledOptions] }
   timerInterval: null,
-  timerSeconds: 105 * 60,    // 105 minutes standard time
+  timerSeconds: 105 * 60, // 105 minutes
   examSubmitted: false
 };
 
-const STORAGE_KEY = "salesforce_data_360_exam_simulator_v2";
+// ---------- DOM References ----------
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
 // ============================================================
-// SECTION 1: ACCESS GATE & AUTHENTICATION
+// SECTION 1: PASSWORD SECURITY
 // ============================================================
 
 const TARGET_PASSWORD_HASH = "79f75d16"; // Hash of "Salesforce2026"
@@ -113,14 +86,10 @@ window.checkPassword = function (e) {
   }
 };
 
-window.quickUnlock = function () {
-  unlockApp();
-};
-
 function unlockApp(instant = false) {
   sessionStorage.setItem("simulator_unlocked", "true");
   const overlay = document.getElementById("password-overlay");
-  const header = document.getElementById("app-header");
+  const header = document.querySelector(".app-header");
   const main = document.getElementById("app-container");
 
   if (overlay) {
@@ -135,718 +104,649 @@ function unlockApp(instant = false) {
 }
 
 // ============================================================
-// SECTION 2: INITIALIZATION & DATA LOADING
+// SECTION 2: DATA LOADING & ADAPTATION
 // ============================================================
 
-async function initQuestionEngine() {
-  const loadingOverlay = document.getElementById("loading-overlay");
-  const fillBar = document.getElementById("loading-fill");
+async function fetchAndParseQuestions() {
+  const loadingFill = document.getElementById("loading-fill");
+  if (loadingFill) loadingFill.style.width = "40%";
 
+  let rawList = null;
   try {
-    if (fillBar) fillBar.style.width = "30%";
-
-    let loadedQuestions = null;
-
-    // Attempt fetch questions.json
-    try {
-      const resp = await fetch("questions.json");
-      if (resp.ok) {
-        loadedQuestions = await resp.json();
-      }
-    } catch (fetchErr) {
-      console.warn("Fetch failed (file:// protocol), falling back to questions.js", fetchErr);
+    const res = await fetch("questions.json");
+    if (res.ok) {
+      rawList = await res.json();
     }
-
-    // Fallback to window.DATA_CLOUD_QUESTIONS
-    if (!loadedQuestions && typeof window !== "undefined" && window.DATA_CLOUD_QUESTIONS) {
-      loadedQuestions = window.DATA_CLOUD_QUESTIONS;
-    }
-
-    if (!loadedQuestions || !Array.isArray(loadedQuestions) || loadedQuestions.length === 0) {
-      throw new Error("Unable to load questions from questions.json or script fallback.");
-    }
-
-    state.questions = loadedQuestions;
-    if (fillBar) fillBar.style.width = "75%";
-
-    // Load persisted state
-    loadPersistedState();
-
-    // Render components
-    renderNavigationBar();
-    renderCurrentView();
-    updateTelemetry();
-    bindSearchAndFilters();
-
-    if (fillBar) fillBar.style.width = "100%";
-
-    setTimeout(() => {
-      if (loadingOverlay) loadingOverlay.classList.add("hidden");
-      if (sessionStorage.getItem("simulator_unlocked") === "true") {
-        unlockApp(true);
-      }
-    }, 300);
-
   } catch (err) {
-    console.error("Critical error starting Exam Engine:", err);
-    if (loadingOverlay) {
-      loadingOverlay.innerHTML = `
-        <div class="loading-card neumorphic-card">
-          <div style="font-size: 2.5rem; margin-bottom: 12px;">⚠️</div>
-          <h2>Engine Initialization Failed</h2>
-          <p>${err.message}</p>
-          <button class="neumorphic-btn primary-btn" onclick="location.reload()">Reload</button>
-        </div>
-      `;
-    }
+    console.warn("questions.json fetch failed, using window fallback.", err);
   }
-}
 
-// ============================================================
-// SECTION 3: STATE PERSISTENCE
-// ============================================================
+  if (!rawList && typeof window !== "undefined" && window.DATA_CLOUD_QUESTIONS) {
+    rawList = window.DATA_CLOUD_QUESTIONS;
+  }
 
-function saveState() {
-  try {
-    const payload = {
-      userAnswers: state.userAnswers,
-      bookmarked: state.bookmarked,
-      revealedExplanations: state.revealedExplanations,
-      mode: state.mode
+  if (!rawList || !Array.isArray(rawList)) {
+    throw new Error("Unable to load question bank from questions.json or fallback script.");
+  }
+
+  if (loadingFill) loadingFill.style.width = "90%";
+
+  // Adapt raw question objects into the simulator format
+  const parsed = rawList.map((q, idx) => {
+    const numId = parseInt(String(q.id).replace(/\D/g, ""), 10) || (idx + 1);
+    const choices = q.options.map(opt => opt.text);
+    const correctOptionTexts = q.options
+      .filter(opt => q.correctAnswers.includes(opt.id))
+      .map(opt => opt.text);
+
+    return {
+      id: numId,
+      originalId: q.id,
+      category: q.topic,
+      question: q.question,
+      choices: choices,
+      correctAnswers: q.correctAnswers,
+      correctOptionTexts: correctOptionTexts,
+      correctAnswerText: correctOptionTexts.join(" | "),
+      explanation: q.explanation
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  } catch (e) {
-    console.warn("LocalStorage save error:", e);
-  }
+  });
+
+  if (loadingFill) loadingFill.style.width = "100%";
+  return parsed;
 }
 
-function loadPersistedState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-    if (data.userAnswers) state.userAnswers = data.userAnswers;
-    if (data.bookmarked) state.bookmarked = data.bookmarked;
-    if (data.revealedExplanations) state.revealedExplanations = data.revealedExplanations;
-    if (data.mode) switchMode(data.mode, false);
-  } catch (e) {
-    console.warn("LocalStorage load error:", e);
+// ============================================================
+// SECTION 3: DUAL-SHUFFLE ENGINE (Fisher-Yates)
+// ============================================================
+
+function fisherYatesShuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+  return arr;
 }
 
-window.resetAllProgress = function () {
-  showConfirmModal(
-    "Reset All Progress",
-    "Are you sure you want to clear all your answers, scores, and bookmarks? This will reset all mastery metrics.",
-    () => {
-      state.userAnswers = {};
-      state.revealedExplanations = {};
-      state.bookmarked = {};
-      state.shuffledOrder = null;
-      state.proportionalExamIds = null;
-      state.examSubmitted = false;
-      stopTimer();
-      state.timerSeconds = 105 * 60;
-      updateTimerDisplay();
-      localStorage.removeItem(STORAGE_KEY);
-      renderNavigationBar();
-      renderCurrentView();
-      updateTelemetry();
-      showToast("All progress and answers reset.");
-    }
-  );
-};
+function shuffleQuestions(questions) {
+  return fisherYatesShuffle([...questions]);
+}
+
+function shuffleOptions(question) {
+  const choicesCopy = [...question.choices];
+  fisherYatesShuffle(choicesCopy);
+  return choicesCopy;
+}
+
+function generateShuffleMaps(questions) {
+  questions.forEach(q => {
+    state.shuffleMap[q.id] = shuffleOptions(q);
+  });
+}
 
 // ============================================================
-// SECTION 4: NAVIGATION & DOMAIN SELECTOR
+// SECTION 4: TAB SYSTEM
 // ============================================================
 
-function renderNavigationBar() {
-  const bar = document.getElementById("domain-nav-bar");
-  if (!bar) return;
+function renderTabButtons() {
+  const nav = $(".tab-nav");
+  if (!nav) return;
+  nav.innerHTML = "";
 
-  bar.innerHTML = NAV_ITEMS.map(item => {
+  const tabs = [
+    { label: "Dashboard", icon: "📊" },
+    { label: "Solution Positioning", weight: "14%" },
+    { label: "Setup & Admin", weight: "13%" },
+    { label: "Connection & Ingest", weight: "18%" },
+    { label: "Harmonization", weight: "17%" },
+    { label: "Enhancements", weight: "18%" },
+    { label: "Activations", weight: "20%" },
+    { label: "Full Exam (95)", icon: "🎯" }
+  ];
+
+  tabs.forEach((tab, i) => {
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (i === 0 ? " active" : "");
+    btn.dataset.tab = i;
+
     let countBadge = "";
-    let weightBadge = "";
-
-    if (item.isDomain) {
-      const domain = DOMAINS_CONFIG[item.id];
-      const count = state.questions.filter(q => q.domainId === item.id).length;
-      weightBadge = `<span class="nav-weight-badge" title="Official Exam Weight">${domain.weight}%</span>`;
-      countBadge = `<span class="nav-count-badge">${count} Qs</span>`;
-    } else if (item.id === "all") {
-      const totalCount = state.proportionalExamIds ? state.proportionalExamIds.length : state.questions.length;
-      countBadge = `<span class="nav-count-badge">${totalCount} Qs</span>`;
-    } else if (item.id === "bookmarks") {
-      const count = Object.values(state.bookmarked).filter(Boolean).length;
-      countBadge = `<span class="nav-count-badge">${count}</span>`;
+    if (i > 0 && i < 7) {
+      const count = state.questions.filter(q => q.category === TAB_CATEGORIES[i]).length;
+      countBadge = `<span class="tab-badge">${count}</span>`;
+    } else if (i === 7) {
+      countBadge = `<span class="tab-badge">${state.questions.length}</span>`;
     }
 
-    const isActive = state.activeNavId === item.id;
-
-    return `
-      <button type="button" 
-              class="domain-nav-item ${isActive ? 'active' : ''}" 
-              role="tab" 
-              aria-selected="${isActive}" 
-              onclick="selectNav('${item.id}')">
-        <span>${item.icon} ${item.label}</span>
-        ${weightBadge}
-        ${countBadge}
-      </button>
-    `;
-  }).join("");
+    btn.innerHTML = `${tab.icon || ""}${tab.label}${tab.weight ? ` (${tab.weight})` : ""}${countBadge}`;
+    nav.appendChild(btn);
+  });
 }
 
-window.selectNav = function (navId) {
-  state.activeNavId = navId;
-  renderNavigationBar();
-  renderCurrentView();
+function setActiveTab(index) {
+  state.activeTab = index;
+  $$(".tab-btn").forEach((btn, i) => btn.classList.toggle("active", i === index));
+  $$(".tab-pane").forEach((pane, i) => pane.classList.toggle("active", i === index));
+}
+
+// ============================================================
+// SECTION 5: DASHBOARD RENDERING
+// ============================================================
+
+function renderDashboard() {
+  const pane = $("#tab-0");
+  if (!pane) return;
+
+  const totalQuestions = state.questions.length;
+
+  const topicList = [
+    {
+      name: CATEGORIES.POSITIONING,
+      weight: "14%",
+      desc: "Value proposition, business use cases, cross-cloud architecture boundaries",
+      color: "var(--cat-positioning)"
+    },
+    {
+      name: CATEGORIES.SETUP_ADMIN,
+      weight: "13%",
+      desc: "Permission sets, tenant provisioning, data spaces, security & governance",
+      color: "var(--cat-setup)"
+    },
+    {
+      name: CATEGORIES.INGESTION,
+      weight: "18%",
+      desc: "Source connectors (CRM, S3, B2C, Ingestion API), streaming and batch ingestion pipelines",
+      color: "var(--cat-ingest)"
+    },
+    {
+      name: CATEGORIES.HARMONIZATION,
+      weight: "17%",
+      desc: "DLO to standard DMO mapping, data modeling, Identity Resolution rulesets",
+      color: "var(--cat-harmonize)"
+    },
+    {
+      name: CATEGORIES.ENHANCEMENTS,
+      weight: "18%",
+      desc: "Calculated Insights, streaming insights, AI features, and data sharing integrations",
+      color: "var(--cat-enhancements)"
+    },
+    {
+      name: CATEGORIES.ACTIVATIONS,
+      weight: "20%",
+      desc: "Audience segmentation, nested segments, activation targets, and payload configurations",
+      color: "var(--cat-activations)"
+    }
+  ];
+
+  pane.innerHTML = `
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <h2>📋 Exam Overview</h2>
+        <p>Salesforce Certified Data 360 Consultant (Spring '26)</p>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-value">60</div>
+            <div class="stat-label">Exam Qs</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">105</div>
+            <div class="stat-label">Minutes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">68%</div>
+            <div class="stat-label">Passing Score</div>
+          </div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text-muted);margin-top:12px">
+          Multiple-choice & multi-select scenario questions. This simulator contains ${totalQuestions} audited practice questions across all 6 blueprint domains directly parsed from <code>Data-Con-101.md</code>.
+        </p>
+      </div>
+
+      <div class="dash-card">
+        <h2>🎯 Your Progress</h2>
+        <p>Track your study progress across all sections.</p>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-value" id="dash-answered">0</div>
+            <div class="stat-label">Answered</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="dash-correct">0</div>
+            <div class="stat-label">Correct</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="dash-score">—</div>
+            <div class="stat-label">Score</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-card full-width">
+        <h3>📚 Exam Topic Breakdown</h3>
+        <p>The Data 360 Consultant exam covers 6 blueprint domains. Click each category tab to practice.</p>
+        <ul class="topic-checklist">
+          ${topicList.map((t, idx) => {
+            const count = state.questions.filter(q => q.category === t.name).length;
+            return `
+            <li>
+              <input type="checkbox" id="chk-${idx}">
+              <div>
+                <strong>${t.name}</strong><br>
+                <span style="font-size:.78rem;color:var(--text-muted)">${t.desc}</span>
+              </div>
+              <span class="topic-weight" style="color:${t.color}">${t.weight} · ${count} Qs</span>
+            </li>`;
+          }).join("")}
+        </ul>
+      </div>
+
+      <div class="dash-card full-width">
+        <h3>📈 Category Progress</h3>
+        <p>Your completion rate per study domain.</p>
+        <div class="cat-progress-grid">
+          ${topicList.map((t, idx) => {
+            const catId = `cat-progress-${idx}`;
+            return `
+            <div class="cat-progress-item" style="border-left-color:${t.color}">
+              <div class="cp-label">${t.name}</div>
+              <div class="cp-bar"><div class="cp-fill" id="${catId}-fill" style="background:${t.color}"></div></div>
+              <div class="cp-text" id="${catId}-text">0% complete</div>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// SECTION 6: QUIZ RENDERING
+// ============================================================
+
+function renderAllQuizTabs() {
+  // Tabs 1-6: Category-filtered, original sequential order
+  for (let i = 1; i <= 6; i++) {
+    const cat = TAB_CATEGORIES[i];
+    const questions = state.questions.filter(q => q.category === cat);
+    renderQuizTab(i, cat, questions);
+  }
+  // Tab 7: Full simulator (all questions in original order)
+  renderQuizTab(7, "Full 95-Question Simulator", [...state.questions]);
+}
+
+function getTabQuestions(tabIndex) {
+  if (tabIndex === 7) return [...state.questions];
+  const cat = TAB_CATEGORIES[tabIndex];
+  return state.questions.filter(q => q.category === cat);
+}
+
+window.shuffleTab = function (tabIndex) {
+  const title = tabIndex === 7
+    ? "Full 95-Question Simulator"
+    : TAB_CATEGORIES[tabIndex];
+  const questions = getTabQuestions(tabIndex);
+  const shuffled = shuffleQuestions(questions);
+  generateShuffleMaps(shuffled);
+  renderQuizTab(tabIndex, title, shuffled);
+  restoreSubmittedState(tabIndex);
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-window.practiceDomain = function (domainId) {
-  state.activeNavId = domainId;
-  state.activeFilter = "all";
-  renderNavigationBar();
-  renderCurrentView();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  showToast(`Launched Practice Deck: ${DOMAINS_CONFIG[domainId].name}`);
-};
+function restoreSubmittedState(tabIndex) {
+  const pane = document.getElementById(`tab-${tabIndex}`);
+  if (!pane) return;
 
-// ============================================================
-// SECTION 5: PROPORTIONAL 60-QUESTION EXAM ENGINE
-// ============================================================
+  const cards = pane.querySelectorAll(".question-card");
+  cards.forEach(card => {
+    const qid = parseInt(card.dataset.qid);
+    if (!state.submitted[qid]) return;
 
-window.startProportionalExam = function () {
-  showConfirmModal(
-    "Start 60-Question Proportional Simulation",
-    "This will assemble a timed, 60-question exam proportionally balanced according to the official certification blueprint weights (14%, 13%, 18%, 17%, 18%, 20%). Ready to begin?",
-    () => {
-      // Required counts per domain for 60 questions:
-      // solution_positioning: 14% of 60 = 8 Qs
-      // setup_and_administration: 13% of 60 = 8 Qs
-      // connection_and_ingestion: 18% of 60 = 11 Qs
-      // harmonization_and_unification: 17% of 60 = 10 Qs
-      // enhancements_sharing_analysis: 18% of 60 = 11 Qs
-      // activations_and_utilization: 20% of 60 = 12 Qs
-      // Total = 60 Qs!
-      const targets = {
-        solution_positioning: 8,
-        setup_and_administration: 8,
-        connection_and_ingestion: 11,
-        harmonization_and_unification: 10,
-        enhancements_sharing_analysis: 11,
-        activations_and_utilization: 12
-      };
+    const q = state.questions.find(x => x.id === qid);
+    if (!q) return;
 
-      const selectedIds = [];
+    const selectedList = state.answers[qid] || [];
+    const isCorrect = isAnswerCorrect(q, selectedList);
 
-      for (const [domainId, targetCount] of Object.entries(targets)) {
-        const pool = state.questions.filter(q => q.domainId === domainId);
-        // Shuffle pool
-        const shuffled = [...pool].sort(() => 0.5 - Math.random());
-        const picked = shuffled.slice(0, targetCount).map(q => q.id);
-        selectedIds.push(...picked);
-      }
-
-      // Shuffle final 60 questions
-      selectedIds.sort(() => 0.5 - Math.random());
-      state.proportionalExamIds = selectedIds;
-      state.activeNavId = "all";
-      state.userAnswers = {};
-      state.revealedExplanations = {};
-      state.examSubmitted = false;
-      state.timerSeconds = 105 * 60; // 105 minutes
-
-      switchMode("exam", false);
-      renderNavigationBar();
-      renderCurrentView();
-      updateTelemetry();
-      showToast("🎯 60-Question Proportional Simulation Generated & Started.");
-    }
-  );
-};
-
-// ============================================================
-// SECTION 6: VIEW RENDERING (DASHBOARD VS QUESTION STREAM)
-// ============================================================
-
-function getActiveDeckQuestions() {
-  let list = [...state.questions];
-
-  // If in 60-Q Proportional Exam
-  if (state.proportionalExamIds && state.activeNavId === "all") {
-    const qMap = new Map(state.questions.map(q => [q.id, q]));
-    list = state.proportionalExamIds.map(id => qMap.get(id)).filter(Boolean);
-  } else if (state.activeNavId === "all") {
-    // all 95
-  } else if (state.activeNavId === "bookmarks") {
-    list = list.filter(q => state.bookmarked[q.id]);
-  } else if (DOMAINS_CONFIG[state.activeNavId]) {
-    list = list.filter(q => q.domainId === state.activeNavId);
-  }
-
-  // If general shuffle is active
-  if (state.shuffledOrder && state.activeNavId === "all" && !state.proportionalExamIds) {
-    const qMap = new Map(state.questions.map(q => [q.id, q]));
-    list = state.shuffledOrder.map(id => qMap.get(id)).filter(Boolean);
-  }
-
-  // Text search
-  if (state.searchQuery.trim().length > 0) {
-    const qLower = state.searchQuery.toLowerCase();
-    list = list.filter(q => {
-      const mPrompt = q.question.toLowerCase().includes(qLower);
-      const mOptions = q.options.some(o => o.text.toLowerCase().includes(qLower));
-      const mExpl = q.explanation.toLowerCase().includes(qLower);
-      const mTopic = (q.topic || "").toLowerCase().includes(qLower);
-      return mPrompt || mOptions || mExpl || mTopic;
-    });
-  }
-
-  // Filter chips
-  if (state.activeFilter !== "all") {
-    list = list.filter(q => {
-      const ans = state.userAnswers[q.id];
-      const isAnswered = ans && ans.length > 0;
-      const isCorrect = isAnswered && arraysEqual(ans, q.correctAnswers);
-
-      if (state.activeFilter === "unanswered") return !isAnswered;
-      if (state.activeFilter === "answered") return isAnswered;
-      if (state.activeFilter === "correct") return isCorrect;
-      if (state.activeFilter === "incorrect") return isAnswered && !isCorrect;
-      if (state.activeFilter === "bookmarked") return !!state.bookmarked[q.id];
-      return true;
-    });
-  }
-
-  return list;
-}
-
-function renderCurrentView() {
-  const container = document.getElementById("tab-content-area");
-  const filterBar = document.getElementById("filter-bar");
-  const contextBanner = document.getElementById("domain-context-banner");
-  if (!container) return;
-
-  if (state.activeNavId === "dashboard") {
-    if (filterBar) filterBar.classList.add("hidden");
-    if (contextBanner) contextBanner.classList.add("hidden");
-    container.innerHTML = renderDashboardView();
-  } else {
-    if (filterBar) filterBar.classList.remove("hidden");
-
-    // Check if domain view
-    const domain = DOMAINS_CONFIG[state.activeNavId];
-    if (domain && contextBanner) {
-      contextBanner.classList.remove("hidden");
-      const iconEl = document.getElementById("banner-domain-icon");
-      const titleEl = document.getElementById("banner-domain-title");
-      const weightEl = document.getElementById("banner-domain-weight");
-      const subtopicsEl = document.getElementById("banner-domain-subtopics");
-      const masteryEl = document.getElementById("banner-domain-mastery");
-
-      const navItem = NAV_ITEMS.find(n => n.id === domain.id);
-      if (iconEl) iconEl.textContent = navItem ? navItem.icon : "⚡";
-      if (titleEl) titleEl.textContent = domain.name;
-      if (weightEl) weightEl.textContent = `${domain.weight}%`;
-      if (subtopicsEl) subtopicsEl.textContent = domain.topics.join(" • ");
-
-      // Compute domain mastery
-      const domainQs = state.questions.filter(q => q.domainId === domain.id);
-      let dAns = 0;
-      let dCorr = 0;
-      domainQs.forEach(q => {
-        if (state.userAnswers[q.id]) {
-          dAns++;
-          if (arraysEqual(state.userAnswers[q.id], q.correctAnswers)) dCorr++;
+    if (state.mode === "study") {
+      card.classList.add(isCorrect ? "answered-correct" : "answered-incorrect");
+      const options = card.querySelectorAll(".option-item");
+      options.forEach(opt => {
+        const optText = opt.querySelector(".option-text").textContent.trim();
+        opt.classList.add("disabled");
+        if (q.correctOptionTexts.some(t => t.trim() === optText)) {
+          opt.classList.add("correct");
+        } else if (selectedList.includes(optText)) {
+          opt.classList.add("incorrect");
         }
       });
-      const dScore = dAns > 0 ? Math.round((dCorr / dAns) * 100) : 0;
-      if (masteryEl) masteryEl.textContent = `${dScore}%`;
-    } else if (contextBanner) {
-      contextBanner.classList.add("hidden");
-    }
-
-    const deck = getActiveDeckQuestions();
-    updateFilterChipCounts();
-
-    if (deck.length === 0) {
-      container.innerHTML = `
-        <div class="empty-deck neumorphic-card">
-          <div class="empty-deck-icon">🔍</div>
-          <h3 style="color: #fff; margin-bottom: 6px;">No Questions Found</h3>
-          <p>No questions matched your current filter criteria or search query.</p>
-          <button class="neumorphic-btn btn-sm" onclick="clearFilters()" style="margin-top: 14px;">Clear All Filters</button>
-        </div>
-      `;
+      const btn = card.querySelector(`.btn-submit`);
+      if (btn) btn.style.display = "none";
+      const explanation = card.querySelector(`.explanation-panel`);
+      if (explanation) explanation.classList.add("visible");
     } else {
-      container.innerHTML = `
-        <div class="questions-stream">
-          ${deck.map(q => renderQuestionCard(q)).join("")}
-        </div>
-      `;
+      const btn = card.querySelector(`.btn-submit`);
+      if (btn) {
+        btn.textContent = "✓ Saved";
+        btn.disabled = true;
+        btn.classList.remove("primary");
+        btn.classList.add("secondary");
+      }
+      const options = card.querySelectorAll(".option-item");
+      options.forEach(opt => {
+        const optText = opt.querySelector(".option-text").textContent.trim();
+        opt.classList.toggle("selected", selectedList.includes(optText));
+      });
     }
-  }
-
-  updateTelemetry();
+  });
 }
 
-// ============================================================
-// SECTION 7: DASHBOARD & DOMAIN MASTERY CARDS
-// ============================================================
+function renderQuizTab(tabIndex, title, questions) {
+  const pane = document.getElementById(`tab-${tabIndex}`);
+  if (!pane) return;
 
-function renderDashboardView() {
-  const masteryCardsHtml = Object.values(DOMAINS_CONFIG).map(domain => {
-    const domainQs = state.questions.filter(q => q.domainId === domain.id);
-    const totalQs = domainQs.length;
-    let answered = 0;
-    let correct = 0;
+  const shuffleBtn = `<button class="btn-shuffle" onclick="shuffleTab(${tabIndex})" title="Shuffle question order and option positions">🔀 Shuffle</button>`;
 
-    domainQs.forEach(q => {
-      const userAns = state.userAnswers[q.id];
-      if (userAns && userAns.length > 0) {
-        answered++;
-        if (arraysEqual(userAns, q.correctAnswers)) {
-          correct++;
-        }
-      }
-    });
-
-    const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-    const progressPct = totalQs > 0 ? Math.round((answered / totalQs) * 100) : 0;
-
-    // Mastery Indicator
-    let indicatorClass = "indicator-review";
-    let indicatorText = "Needs Review";
-
-    if (answered === 0) {
-      indicatorClass = "indicator-review";
-      indicatorText = "Not Started";
-    } else if (accuracy >= 80) {
-      indicatorClass = "indicator-mastered";
-      indicatorText = "Mastered (>80%)";
-    } else if (accuracy >= 65) {
-      indicatorClass = "indicator-proficient";
-      indicatorText = "Proficient (65-80%)";
-    } else {
-      indicatorClass = "indicator-review";
-      indicatorText = "Needs Review (<65%)";
-    }
-
-    const subtopicsHtml = domain.topics.map(t => `<span class="subtopic-tag">${t}</span>`).join("");
-
-    return `
-      <div class="mastery-card neumorphic-card" id="mastery-${domain.id}">
-        <div>
-          <div class="mastery-card-header">
-            <div class="mastery-card-title">
-              <h3>${domain.name}</h3>
-            </div>
-            <span class="mastery-weight-pill">${domain.weight}% Weight</span>
-          </div>
-
-          <div class="mastery-subtopics" style="margin-top: 10px;">
-            ${subtopicsHtml}
-          </div>
-        </div>
-
-        <div>
-          <div class="mastery-metrics">
-            <div class="mastery-stats-row">
-              <div>
-                <span class="pill-label">Domain Accuracy</span>
-                <div class="mastery-score-big" style="color: ${accuracy >= 80 ? 'var(--mastery-mastered)' : accuracy >= 65 ? 'var(--mastery-proficient)' : 'var(--mastery-review)'}">
-                  ${answered > 0 ? accuracy + '%' : '--'}
-                </div>
-              </div>
-              <span class="mastery-indicator-tag ${indicatorClass}">${indicatorText}</span>
-            </div>
-
-            <div style="margin-top: 4px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--slate-400); margin-bottom: 4px;">
-                <span>Completed: ${answered} / ${totalQs}</span>
-                <span>${progressPct}%</span>
-              </div>
-              <div class="mastery-bar">
-                <div class="mastery-bar-fill" style="width: ${progressPct}%; background: var(--accent-blue);"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mastery-card-footer">
-            <span class="mastery-q-count">${totalQs} Blueprint Questions</span>
-            <button class="neumorphic-btn btn-sm primary-btn" onclick="practiceDomain('${domain.id}')">
-              <span>🎯</span> Practice Domain
-            </button>
-          </div>
-        </div>
+  pane.innerHTML = `
+    <div class="section-header">
+      <h2>${title}</h2>
+      <div class="section-header-actions">
+        ${shuffleBtn}
+        <span class="section-progress" id="progress-${tabIndex}">0 / ${questions.length} Answered</span>
       </div>
-    `;
-  }).join("");
-
-  return `
-    <div class="mastery-grid">
-      <!-- Hero Banner -->
-      <div class="dashboard-hero neumorphic-card">
-        <div>
-          <div class="password-badge">Official Candidate Readiness Platform</div>
-          <h2>Salesforce Certified Data 360 Consultant</h2>
-          <p>
-            Systematic exam preparation structured strictly around the 6 official blueprint domains. Practice individual domains with verified answer keys, or launch a full 60-question weighted simulation.
-          </p>
-        </div>
-        <div class="hero-btn-group">
-          <button class="neumorphic-btn primary-btn" onclick="selectNav('all')">⚡ Full 95-Question Bank</button>
-          <button class="neumorphic-btn" onclick="startProportionalExam()">🎯 Proportional 60-Q Exam</button>
-        </div>
-      </div>
-
-      <!-- Domain Mastery Cards -->
-      ${masteryCardsHtml}
+    </div>
+    <div class="quiz-container" id="quiz-${tabIndex}">
+      ${questions.map(q => renderQuestionCard(q)).join("")}
     </div>
   `;
 }
-
-// ============================================================
-// SECTION 8: QUESTION CARD COMPONENT
-// ============================================================
 
 function renderQuestionCard(q) {
-  const isBookmarked = !!state.bookmarked[q.id];
-  const userAns = state.userAnswers[q.id] || [];
-  const isAnswered = userAns.length > 0;
-  const isCorrect = isAnswered && arraysEqual(userAns, q.correctAnswers);
-  const isRevealed = state.mode === "study" ? isAnswered || !!state.revealedExplanations[q.id] : state.examSubmitted;
-
-  const domain = DOMAINS_CONFIG[q.domainId] || { name: q.topic, weight: q.domainWeight || 0 };
-
-  // Status badge
-  let statusBadge = "";
-  if (isAnswered) {
-    if (state.mode === "study" || state.examSubmitted) {
-      statusBadge = isCorrect 
-        ? `<span class="q-status-badge" style="background: var(--color-correct-bg); color: var(--color-correct); border: 1px solid var(--color-correct);">✓ Correct</span>`
-        : `<span class="q-status-badge" style="background: var(--color-incorrect-bg); color: var(--color-incorrect); border: 1px solid var(--color-incorrect);">✕ Incorrect</span>`;
-    } else {
-      statusBadge = `<span class="q-status-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-blue);">Answered</span>`;
-    }
+  let displayOptions = state.shuffleMap[q.id];
+  if (!displayOptions) {
+    displayOptions = [...q.choices];
   }
 
-  // Multi-select check
-  const isMulti = q.correctAnswers.length > 1;
-
-  // Render options
-  const optionsHtml = q.options.map(opt => {
-    const isSelected = userAns.includes(opt.id);
-    let optClasses = ["option-item"];
-
-    if (isSelected) optClasses.push("selected");
-
-    if (isRevealed) {
-      optClasses.push("locked");
-      if (q.correctAnswers.includes(opt.id)) {
-        optClasses.push("opt-correct");
-      } else if (isSelected) {
-        optClasses.push("opt-incorrect");
-      }
-    }
-
-    return `
-      <button type="button" 
-              class="${optClasses.join(' ')}" 
-              onclick="handleOptionClick('${q.id}', '${opt.id}')"
-              ${state.examSubmitted ? 'disabled' : ''}>
-        <span class="option-letter">${opt.id}</span>
-        <span class="option-text">${escapeHtml(opt.text)}</span>
-      </button>
-    `;
-  }).join("");
-
-  // Explanation block
-  let explanationHtml = "";
-  if (isRevealed) {
-    let cleanExpl = q.explanation;
-    let auditNoteHtml = "";
-
-    if (cleanExpl.includes("[Technical Audit Note:")) {
-      const parts = cleanExpl.split("[Technical Audit Note:");
-      cleanExpl = parts[0].trim();
-      const noteText = parts[1].replace(/\]\s*$/, "").trim();
-      auditNoteHtml = `
-        <div class="audit-callout">
-          <div class="audit-callout-icon">🛡️</div>
-          <div class="audit-callout-body">
-            <strong>Technical Audit Note:</strong> ${escapeHtml(noteText)}
-          </div>
-        </div>
-      `;
-    }
-
-    explanationHtml = `
-      <div class="explanation-box">
-        <div class="explanation-title">
-          <span>💡 Technical Rationale &amp; Key Verification</span>
-        </div>
-        <div class="explanation-text">${escapeHtml(cleanExpl)}</div>
-        ${auditNoteHtml}
-      </div>
-    `;
-  }
+  const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+  const isMulti = q.correctOptionTexts.length > 1;
+  const isExamMode = state.mode === "exam";
+  const actionsStyle = isExamMode ? "display: none;" : "";
 
   return `
-    <div class="question-card neumorphic-card ${isAnswered ? (isCorrect ? 'answered-correct' : 'answered-incorrect') : ''}" id="card-${q.id}">
+    <div class="question-card" id="qcard-${q.id}" data-qid="${q.id}">
       <div class="question-header">
-        <div class="q-meta-left">
-          <span class="q-id-pill">${q.id.toUpperCase()}</span>
-          <span class="q-domain-pill">${escapeHtml(domain.name)}</span>
-          <span class="q-weight-pill">${domain.weight}%</span>
-          ${isMulti ? `<span class="q-status-badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">Multi-Select (${q.correctAnswers.length})</span>` : ''}
-        </div>
-        <div class="q-meta-right">
-          ${statusBadge}
-          <button type="button" 
-                  class="bookmark-icon-btn ${isBookmarked ? 'active' : ''}" 
-                  onclick="toggleBookmark('${q.id}')" 
-                  title="${isBookmarked ? 'Remove Bookmark' : 'Bookmark Question'}">
-            ${isBookmarked ? '★' : '☆'}
-          </button>
+        <div class="question-number">Q${q.id}</div>
+        <div class="question-body">
+          <div class="question-text">
+            ${escapeHtml(q.question)}
+            ${isMulti ? `<span style="display:inline-block; margin-left:8px; font-size:.75rem; background:#FFF4E5; color:#D97706; padding:2px 8px; border-radius:4px; font-weight:600;">Choose ${q.correctOptionTexts.length}</span>` : ''}
+          </div>
         </div>
       </div>
-
-      <div class="question-prompt">${escapeHtml(q.question)}</div>
-
-      <div class="options-list">
-        ${optionsHtml}
+      <div class="options-list" id="options-${q.id}">
+        ${displayOptions.map((optText, idx) => {
+          const letter = LETTERS[idx] || String.fromCharCode(65 + idx);
+          return `
+            <div class="option-item ${isMulti ? 'multi-option' : ''}" data-qid="${q.id}" data-idx="${idx}" onclick="selectOption(${q.id},${idx})">
+              <div class="option-radio ${isMulti ? 'checkbox-radio' : ''}"></div>
+              <div class="option-letter">${letter}</div>
+              <div class="option-text">${escapeHtml(optText)}</div>
+            </div>
+          `;
+        }).join("")}
       </div>
-
-      <div class="question-footer">
-        ${state.mode === "study" && !isRevealed ? `
-          <button type="button" class="neumorphic-btn btn-sm" onclick="revealExplanation('${q.id}')">
-            👁️ Reveal Explanation &amp; Key
-          </button>
-        ` : ''}
-        ${isAnswered && state.mode === "study" ? `
-          <span style="font-size: 0.82rem; color: var(--slate-400);">
-            Verified Answer: <strong style="color: #fff;">${q.correctAnswers.join(", ")}</strong>
-          </span>
-        ` : ''}
+      <div class="question-actions" id="actions-${q.id}" style="${actionsStyle}">
+        <button class="btn-submit primary" id="submit-${q.id}" disabled onclick="submitAnswer(${q.id})">Submit Answer</button>
       </div>
-
-      ${explanationHtml}
+      <div class="explanation-panel" id="explanation-${q.id}">
+        <h4>💡 Explanation</h4>
+        <p>${escapeHtml(q.explanation)}</p>
+      </div>
     </div>
   `;
 }
 
 // ============================================================
-// SECTION 9: USER INTERACTION HANDLERS
+// SECTION 7: ANSWER SELECTION & SUBMISSION
 // ============================================================
 
-window.handleOptionClick = function (qId, optionId) {
-  if (state.examSubmitted) return;
+function isAnswerCorrect(q, selectedList) {
+  if (!selectedList || selectedList.length === 0) return false;
+  if (selectedList.length !== q.correctOptionTexts.length) return false;
+  const sortedSelected = [...selectedList].map(s => s.trim()).sort();
+  const sortedCorrect = [...q.correctOptionTexts].map(s => s.trim()).sort();
+  return sortedSelected.every((val, i) => val === sortedCorrect[i]);
+}
 
-  const q = state.questions.find(item => item.id === qId);
+window.selectOption = function (qid, selectedIdx) {
+  if (state.submitted[qid] && state.mode === "study") return;
+
+  const activeTabPane = $(`#tab-${state.activeTab}`);
+  if (!activeTabPane) return;
+
+  const q = state.questions.find(x => x.id === qid);
   if (!q) return;
 
-  const isMulti = q.correctAnswers.length > 1;
-  let currentSelections = state.userAnswers[qId] ? [...state.userAnswers[qId]] : [];
+  const optionEl = activeTabPane.querySelector(`#options-${qid} .option-item[data-idx="${selectedIdx}"]`);
+  if (!optionEl) return;
+  const selectedText = optionEl.querySelector(".option-text").textContent.trim();
+
+  const isMulti = q.correctOptionTexts.length > 1;
+  let currentSelections = state.answers[qid] ? [...state.answers[qid]] : [];
 
   if (isMulti) {
-    if (currentSelections.includes(optionId)) {
-      currentSelections = currentSelections.filter(id => id !== optionId);
+    if (currentSelections.includes(selectedText)) {
+      currentSelections = currentSelections.filter(t => t !== selectedText);
     } else {
-      currentSelections.push(optionId);
-      currentSelections.sort();
+      currentSelections.push(selectedText);
     }
   } else {
-    currentSelections = [optionId];
+    currentSelections = [selectedText];
   }
 
-  if (currentSelections.length > 0) {
-    state.userAnswers[qId] = currentSelections;
-    if (state.mode === "study") {
-      state.revealedExplanations[qId] = true;
-    }
+  state.answers[qid] = currentSelections;
+
+  // Update UI in active tab
+  const options = activeTabPane.querySelectorAll(`#options-${qid} .option-item`);
+  options.forEach(opt => {
+    const text = opt.querySelector(".option-text").textContent.trim();
+    opt.classList.toggle("selected", currentSelections.includes(text));
+  });
+
+  if (state.mode === "exam") {
+    state.submitted[qid] = currentSelections.length > 0;
+    updateScoreMatrix();
+    updateTabProgress();
   } else {
-    delete state.userAnswers[qId];
+    const btn = activeTabPane.querySelector(`#submit-${qid}`);
+    if (btn) btn.disabled = currentSelections.length === 0;
   }
-
-  saveState();
-  updateQuestionCard(qId);
-  updateTelemetry();
 };
 
-window.revealExplanation = function (qId) {
-  state.revealedExplanations[qId] = true;
-  saveState();
-  updateQuestionCard(qId);
-};
+window.submitAnswer = function (qid) {
+  if (state.submitted[qid]) return;
 
-window.toggleBookmark = function (qId) {
-  state.bookmarked[qId] = !state.bookmarked[qId];
-  saveState();
-  updateQuestionCard(qId);
-  updateFilterChipCounts();
-  renderNavigationBar();
-  showToast(state.bookmarked[qId] ? "Question bookmarked." : "Bookmark removed.");
-};
-
-function updateQuestionCard(qId) {
-  const q = state.questions.find(item => item.id === qId);
+  const q = state.questions.find(x => x.id === qid);
   if (!q) return;
 
-  const card = document.getElementById(`card-${qId}`);
-  if (!card) return;
+  const selectedList = state.answers[qid];
+  if (!selectedList || selectedList.length === 0) return;
 
-  const tempWrapper = document.createElement("div");
-  tempWrapper.innerHTML = renderQuestionCard(q);
-  const newCard = tempWrapper.firstElementChild;
-  card.replaceWith(newCard);
+  const isCorrect = isAnswerCorrect(q, selectedList);
+  const activeTabPane = $(`#tab-${state.activeTab}`);
+
+  if (state.mode === "exam") {
+    state.submitted[qid] = true;
+    const btn = activeTabPane ? activeTabPane.querySelector(`#submit-${qid}`) : null;
+    if (btn) {
+      btn.textContent = "✓ Saved";
+      btn.disabled = true;
+      btn.classList.remove("primary");
+      btn.classList.add("secondary");
+    }
+    updateScoreMatrix();
+    updateTabProgress();
+    return;
+  }
+
+  // Study mode: show immediate feedback
+  state.submitted[qid] = true;
+
+  const card = activeTabPane ? activeTabPane.querySelector(`#qcard-${qid}`) : null;
+  if (card) card.classList.add(isCorrect ? "answered-correct" : "answered-incorrect");
+
+  const options = activeTabPane ? activeTabPane.querySelectorAll(`#options-${qid} .option-item`) : [];
+  options.forEach(opt => {
+    const optText = opt.querySelector(".option-text").textContent.trim();
+    opt.classList.add("disabled");
+    opt.classList.remove("selected");
+
+    if (q.correctOptionTexts.some(t => t.trim() === optText)) {
+      opt.classList.add("correct");
+    } else if (selectedList.includes(optText)) {
+      opt.classList.add("incorrect");
+    }
+  });
+
+  const btn = activeTabPane ? activeTabPane.querySelector(`#submit-${qid}`) : null;
+  if (btn) btn.style.display = "none";
+
+  const explanation = activeTabPane ? activeTabPane.querySelector(`#explanation-${qid}`) : null;
+  if (explanation) explanation.classList.add("visible");
+
+  updateScoreMatrix();
+  updateTabProgress();
+};
+
+// ============================================================
+// SECTION 8: SCORE MATRIX & PROGRESS
+// ============================================================
+
+function updateScoreMatrix() {
+  const totalQuestions = state.questions.length;
+  const totalAnswered = Object.keys(state.submitted).filter(qid => state.submitted[qid]).length;
+  let correctCount = 0;
+
+  Object.keys(state.submitted).forEach(qid => {
+    if (!state.submitted[qid]) return;
+    const q = state.questions.find(x => x.id === parseInt(qid));
+    if (!q) return;
+
+    const selectedList = state.answers[qid];
+    if (isAnswerCorrect(q, selectedList)) {
+      correctCount++;
+    }
+  });
+
+  const score = totalAnswered > 0 ? ((correctCount / totalAnswered) * 100).toFixed(1) : "0.0";
+  const passing = parseFloat(score) >= 68;
+
+  // Update header pills
+  const progressPill = $("#pill-progress");
+  const scorePill = $("#pill-score");
+  const statusPill = $("#pill-status");
+
+  if (progressPill) progressPill.querySelector(".pill-value").textContent = `${totalAnswered}/${totalQuestions}`;
+  if (scorePill) scorePill.querySelector(".pill-value").textContent = `${score}%`;
+  if (statusPill) {
+    statusPill.querySelector(".pill-value").textContent = passing ? "Passing" : "Not Passing";
+    statusPill.className = `score-pill ${passing ? "passing" : "failing"}`;
+  }
+
+  // Update dashboard stats
+  const dashAnswered = $("#dash-answered");
+  const dashCorrect = $("#dash-correct");
+  const dashScore = $("#dash-score");
+
+  if (dashAnswered) dashAnswered.textContent = totalAnswered;
+  if (dashCorrect) dashCorrect.textContent = correctCount;
+  if (dashScore) dashScore.textContent = totalAnswered > 0 ? `${score}%` : "—";
+}
+
+function updateTabProgress() {
+  for (let i = 1; i <= 6; i++) {
+    const cat = TAB_CATEGORIES[i];
+    const questions = state.questions.filter(q => q.category === cat);
+    const answered = questions.filter(q => state.submitted[q.id]).length;
+    const el = $(`#progress-${i}`);
+    if (el) el.textContent = `${answered} / ${questions.length} Answered`;
+  }
+
+  const allAnswered = Object.keys(state.submitted).filter(qid => state.submitted[qid]).length;
+  const el7 = $(`#progress-7`);
+  if (el7) el7.textContent = `${allAnswered} / ${state.questions.length} Answered`;
+
+  const topicKeys = [
+    CATEGORIES.POSITIONING,
+    CATEGORIES.SETUP_ADMIN,
+    CATEGORIES.INGESTION,
+    CATEGORIES.HARMONIZATION,
+    CATEGORIES.ENHANCEMENTS,
+    CATEGORIES.ACTIVATIONS
+  ];
+  topicKeys.forEach((cat, idx) => {
+    const questions = state.questions.filter(q => q.category === cat);
+    const answered = questions.filter(q => state.submitted[q.id]).length;
+    const pct = questions.length > 0 ? Math.round((answered / questions.length) * 100) : 0;
+
+    const fill = $(`#cat-progress-${idx}-fill`);
+    const text = $(`#cat-progress-${idx}-text`);
+    if (fill) fill.style.width = `${pct}%`;
+    if (text) text.textContent = `${pct}% complete (${answered}/${questions.length})`;
+  });
 }
 
 // ============================================================
-// SECTION 10: MODE SWITCHING & EXAM TIMING
+// SECTION 9: MODE TOGGLE (STUDY / EXAM)
 // ============================================================
 
-window.switchMode = function (newMode, rerender = true) {
-  state.mode = newMode;
-  const btnStudy = document.getElementById("btn-mode-study");
-  const btnExam = document.getElementById("btn-mode-exam");
-  const examTimer = document.getElementById("exam-timer");
-  const submitBtn = document.getElementById("submit-exam-btn");
+function toggleMode(isExam) {
+  state.mode = isExam ? "exam" : "study";
 
-  if (newMode === "exam") {
-    if (btnStudy) btnStudy.classList.remove("active");
-    if (btnExam) btnExam.classList.add("active");
-    if (examTimer) examTimer.classList.remove("hidden");
-    if (submitBtn) submitBtn.classList.remove("hidden");
+  const timer = $(".exam-timer");
+  const submitExamBtn = $(".submit-exam-btn");
+
+  if (isExam) {
+    state.answers = {};
+    state.submitted = {};
+    state.shuffleMap = {};
+    state.examSubmitted = false;
+    state.timerSeconds = 105 * 60;
+
+    renderAllQuizTabs();
+    updateScoreMatrix();
+    updateTabProgress();
+
+    if (timer) timer.classList.add("visible");
+    if (submitExamBtn) submitExamBtn.classList.add("visible");
     startTimer();
-    showToast("Exam Mode enabled: 105-minute countdown active, answers concealed until submission.");
-  } else {
-    if (btnExam) btnExam.classList.remove("active");
-    if (btnStudy) btnStudy.classList.add("active");
-    if (examTimer) examTimer.classList.add("hidden");
-    if (submitBtn) submitBtn.classList.add("hidden");
-    stopTimer();
-    showToast("Study Mode enabled: Immediate answer key feedback and technical rationales available.");
-  }
 
-  saveState();
-  if (rerender && state.activeNavId !== "dashboard") {
-    renderCurrentView();
+    setActiveTab(7);
+  } else {
+    state.answers = {};
+    state.submitted = {};
+    state.shuffleMap = {};
+
+    stopTimer();
+    if (timer) timer.classList.remove("visible");
+    if (submitExamBtn) submitExamBtn.classList.remove("visible");
+
+    renderAllQuizTabs();
+    updateScoreMatrix();
+    updateTabProgress();
+
+    setActiveTab(0);
   }
-};
+}
 
 function startTimer() {
   stopTimer();
+  updateTimerDisplay();
   state.timerInterval = setInterval(() => {
     if (state.timerSeconds > 0) {
       state.timerSeconds--;
       updateTimerDisplay();
     } else {
       stopTimer();
-      alert("⏱️ Exam time elapsed! Submitting answers automatically.");
+      alert("⏱️ Time is up! Submitting your exam now.");
       submitExam();
     }
   }, 1000);
@@ -860,306 +760,194 @@ function stopTimer() {
 }
 
 function updateTimerDisplay() {
-  const el = document.getElementById("timer-text");
-  if (!el) return;
-
-  const h = Math.floor(state.timerSeconds / 3600);
-  const m = Math.floor((state.timerSeconds % 3600) / 60);
-  const s = state.timerSeconds % 60;
-
-  el.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  const hours = Math.floor(state.timerSeconds / 3600);
+  const mins = Math.floor((state.timerSeconds % 3600) / 60);
+  const secs = state.timerSeconds % 60;
+  const display = `${hours > 0 ? hours + ':' : ''}${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  const timerText = $("#timer-text");
+  if (timerText) timerText.textContent = display;
 }
 
-document.getElementById("submit-exam-btn")?.addEventListener("click", () => {
-  const activeDeck = getActiveDeckQuestions();
-  let answeredCount = 0;
-  activeDeck.forEach(q => {
-    if (state.userAnswers[q.id]) answeredCount++;
-  });
-
-  showConfirmModal(
-    "Submit Exam for Evaluation",
-    `You have answered ${answeredCount} of ${activeDeck.length} questions in this deck. Ready to submit for official grading?`,
-    () => {
-      submitExam();
-    }
-  );
-});
+// ============================================================
+// SECTION 10: EXAM SUBMISSION & RESULTS
+// ============================================================
 
 function submitExam() {
-  stopTimer();
+  if (state.examSubmitted) return;
   state.examSubmitted = true;
+  stopTimer();
 
-  const activeDeck = getActiveDeckQuestions();
-  const total = activeDeck.length;
-  let correctCount = 0;
-  const domainBreakdown = {};
+  let totalCorrect = 0;
+  const sectionResults = {};
 
-  Object.keys(DOMAINS_CONFIG).forEach(dId => {
-    domainBreakdown[dId] = { total: 0, correct: 0 };
+  Object.values(CATEGORIES).forEach(cat => {
+    sectionResults[cat] = { total: 0, correct: 0 };
   });
 
-  activeDeck.forEach(q => {
-    if (domainBreakdown[q.domainId]) domainBreakdown[q.domainId].total++;
-    const userAns = state.userAnswers[q.id];
-    if (userAns && arraysEqual(userAns, q.correctAnswers)) {
-      correctCount++;
-      if (domainBreakdown[q.domainId]) domainBreakdown[q.domainId].correct++;
+  state.questions.forEach(q => {
+    if (sectionResults[q.category]) sectionResults[q.category].total++;
+    const selectedList = state.answers[q.id];
+
+    if (isAnswerCorrect(q, selectedList)) {
+      totalCorrect++;
+      if (sectionResults[q.category]) sectionResults[q.category].correct++;
     }
   });
 
-  const finalScore = Math.round((correctCount / total) * 100);
-  const passed = finalScore >= 68;
+  const totalQuestions = state.questions.length;
+  const totalAnswered = Object.keys(state.submitted).filter(qid => state.submitted[qid]).length;
+  const score = ((totalCorrect / totalQuestions) * 100).toFixed(1);
+  const passed = parseFloat(score) >= 68;
 
-  renderResultsModal(finalScore, passed, correctCount, total, domainBreakdown);
-  renderCurrentView();
+  showResultsModal(totalAnswered, totalCorrect, score, passed, sectionResults);
 }
 
-function renderResultsModal(score, passed, correct, total, breakdown) {
-  const overlay = document.getElementById("results-overlay");
-  const modal = document.getElementById("results-modal");
-  if (!overlay || !modal) return;
+function showResultsModal(answered, correct, score, passed, sections) {
+  const overlay = $(".results-overlay");
+  if (!overlay) return;
 
-  const rows = Object.entries(breakdown).map(([dId, data]) => {
-    const domain = DOMAINS_CONFIG[dId];
-    if (data.total === 0) return "";
-    const pct = Math.round((data.correct / data.total) * 100);
-    return `
-      <div class="domain-res-row">
-        <span class="res-domain-name">${domain.name} (${domain.weight}%)</span>
-        <span class="res-domain-score" style="color: ${pct >= 68 ? 'var(--mastery-mastered)' : 'var(--mastery-review)'}">
-          ${data.correct} / ${data.total} (${pct}%)
-        </span>
-      </div>
-    `;
-  }).join("");
+  const circumference = 2 * Math.PI * 65;
+  const offset = circumference - (parseFloat(score) / 100) * circumference;
+  const strokeColor = passed ? "var(--color-correct)" : "var(--color-incorrect)";
+  const totalQuestions = state.questions.length;
+
+  const modal = overlay.querySelector(".results-modal");
+  if (!modal) return;
 
   modal.innerHTML = `
-    <div class="results-header-badge ${passed ? 'pass' : 'fail'}">
-      ${passed ? '🎉 Passed Certification Standard' : '⚠️ Below Passing Standard'}
-    </div>
-    <div class="results-score-big" style="color: ${passed ? 'var(--mastery-mastered)' : 'var(--color-incorrect)'}">
-      ${score}%
-    </div>
-    <div class="results-subtext">
-      ${correct} of ${total} questions answered correctly · Passing Standard: 68%
+    <h2>${passed ? "🎉 Congratulations!" : "📝 Keep Studying!"}</h2>
+    <p class="result-subtitle">${passed ? "You passed the practice exam!" : "You didn't reach the 68% passing threshold."}</p>
+
+    <div class="result-score-ring">
+      <svg viewBox="0 0 140 140">
+        <circle class="ring-bg" cx="70" cy="70" r="65"/>
+        <circle class="ring-progress" cx="70" cy="70" r="65"
+          stroke="${strokeColor}"
+          stroke-dasharray="${circumference}"
+          stroke-dashoffset="${offset}"/>
+      </svg>
+      <div class="ring-text" style="color:${strokeColor}">
+        ${score}%
+        <span>Score</span>
+      </div>
     </div>
 
-    <div class="domain-res-table">
-      <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--slate-400); margin-bottom: 6px;">Domain Breakdown</h4>
-      ${rows}
+    <div class="results-breakdown">
+      <div class="result-stat ${passed ? 'pass' : 'fail'}">
+        <div class="rs-value">${correct}/${totalQuestions}</div>
+        <div class="rs-label">Correct</div>
+      </div>
+      <div class="result-stat">
+        <div class="rs-value">${answered}</div>
+        <div class="rs-label">Answered</div>
+      </div>
+      <div class="result-stat">
+        <div class="rs-value">${totalQuestions - answered}</div>
+        <div class="rs-label">Unanswered</div>
+      </div>
+      <div class="result-stat ${passed ? 'pass' : 'fail'}">
+        <div class="rs-value">${passed ? "PASS" : "FAIL"}</div>
+        <div class="rs-label">Status (≥68%)</div>
+      </div>
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 12px;">
-      <button class="neumorphic-btn primary-btn" onclick="closeResultsModal()">Review Questions</button>
-      <button class="neumorphic-btn" onclick="resetAllProgress()">Retake Exam</button>
-    </div>
+    <table class="results-section-table">
+      <thead>
+        <tr><th>Section</th><th>Weight</th><th>Score</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        ${Object.entries(sections).map(([name, data]) => {
+          const pct = data.total > 0 ? ((data.correct / data.total) * 100).toFixed(0) : 0;
+          const weight = CATEGORY_WEIGHTS[name] || "—";
+          return `<tr>
+            <td>${name}</td>
+            <td>${weight}</td>
+            <td>${data.correct}/${data.total} (${pct}%)</td>
+            <td style="color:${pct >= 68 ? 'var(--color-correct)' : 'var(--color-incorrect)'}">${pct >= 68 ? "✓ Pass" : "✕ Needs Work"}</td>
+          </tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+
+    <button class="results-close-btn" onclick="closeResults()">Review Answers</button>
   `;
 
-  overlay.classList.add("active");
+  overlay.classList.add("visible");
 }
 
-window.closeResultsModal = function () {
-  const overlay = document.getElementById("results-overlay");
-  if (overlay) overlay.classList.remove("active");
+window.closeResults = function () {
+  const overlay = $(".results-overlay");
+  if (overlay) overlay.classList.remove("visible");
+
+  state.questions.forEach(q => {
+    const selectedList = state.answers[q.id] || [];
+    const isCorrect = isAnswerCorrect(q, selectedList);
+
+    const cards = $$(`#qcard-${q.id}`);
+    cards.forEach(card => {
+      card.classList.add(isCorrect ? "answered-correct" : "answered-incorrect");
+
+      const options = card.querySelectorAll(".option-item");
+      options.forEach(opt => {
+        const optText = opt.querySelector(".option-text").textContent.trim();
+        opt.classList.add("disabled");
+        opt.classList.remove("selected");
+
+        if (q.correctOptionTexts.some(t => t.trim() === optText)) {
+          opt.classList.add("correct");
+        } else if (selectedList.includes(optText)) {
+          opt.classList.add("incorrect");
+        }
+      });
+
+      const explanation = card.querySelector(`.explanation-panel`);
+      if (explanation) explanation.classList.add("visible");
+
+      const btn = card.querySelector(`.btn-submit`);
+      if (btn) btn.style.display = "none";
+    });
+  });
 };
 
 // ============================================================
-// SECTION 11: TELEMETRY & FILTER CONTROLS
+// SECTION 11: EVENT BINDINGS & HELPERS
 // ============================================================
 
-function updateTelemetry() {
-  const activeDeck = getActiveDeckQuestions();
-  const total = activeDeck.length;
-  let answered = 0;
-  let correct = 0;
-
-  activeDeck.forEach(q => {
-    const ans = state.userAnswers[q.id];
-    if (ans && ans.length > 0) {
-      answered++;
-      if (arraysEqual(ans, q.correctAnswers)) correct++;
+function bindEvents() {
+  document.addEventListener("click", (e) => {
+    const tabBtn = e.target.closest(".tab-btn");
+    if (tabBtn) {
+      setActiveTab(parseInt(tabBtn.dataset.tab));
     }
   });
 
-  const accuracy = answered > 0 ? ((correct / answered) * 100).toFixed(1) : "0.0";
-  const progressPct = total > 0 ? Math.round((answered / total) * 100) : 0;
-
-  const progressText = document.getElementById("progress-text");
-  const progressBarFill = document.getElementById("progress-bar-fill");
-  if (progressText) progressText.textContent = `${answered} / ${total}`;
-  if (progressBarFill) progressBarFill.style.width = `${progressPct}%`;
-
-  const accuracyText = document.getElementById("accuracy-text");
-  if (accuracyText) accuracyText.textContent = `${accuracy}%`;
-
-  const statusBadge = document.getElementById("status-badge");
-  if (statusBadge) {
-    if (answered === 0) {
-      statusBadge.textContent = "Not Started";
-      statusBadge.className = "pill-value status-badge neutral";
-    } else if (parseFloat(accuracy) >= 68) {
-      statusBadge.textContent = "Passing (≥68%)";
-      statusBadge.className = "pill-value status-badge pass";
-    } else {
-      statusBadge.textContent = "Needs Review";
-      statusBadge.className = "pill-value status-badge review";
-    }
-  }
-
-  updateFilterChipCounts();
-}
-
-function updateFilterChipCounts() {
-  let base = [...state.questions];
-  if (state.proportionalExamIds && state.activeNavId === "all") {
-    const qMap = new Map(state.questions.map(q => [q.id, q]));
-    base = state.proportionalExamIds.map(id => qMap.get(id)).filter(Boolean);
-  } else if (state.activeNavId === "bookmarks") {
-    base = base.filter(q => state.bookmarked[q.id]);
-  } else if (DOMAINS_CONFIG[state.activeNavId]) {
-    base = base.filter(q => q.domainId === state.activeNavId);
-  }
-
-  let unans = 0, ans = 0, corr = 0, incorr = 0, bkmk = 0;
-
-  base.forEach(q => {
-    const userAns = state.userAnswers[q.id];
-    const hasAns = userAns && userAns.length > 0;
-    const isCorr = hasAns && arraysEqual(userAns, q.correctAnswers);
-
-    if (hasAns) {
-      ans++;
-      if (isCorr) corr++;
-      else incorr++;
-    } else {
-      unans++;
-    }
-
-    if (state.bookmarked[q.id]) bkmk++;
-  });
-
-  setCountText("count-all", base.length);
-  setCountText("count-unanswered", unans);
-  setCountText("count-answered", ans);
-  setCountText("count-correct", corr);
-  setCountText("count-incorrect", incorr);
-  setCountText("count-bookmarked", bkmk);
-}
-
-function setCountText(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = val;
-}
-
-function bindSearchAndFilters() {
-  const searchInput = document.getElementById("search-input");
-  const clearBtn = document.getElementById("clear-search-btn");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", e => {
-      state.searchQuery = e.target.value;
-      if (clearBtn) {
-        if (state.searchQuery.length > 0) clearBtn.classList.remove("hidden");
-        else clearBtn.classList.add("hidden");
+  const toggle = $("#mode-toggle");
+  if (toggle) {
+    toggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        if (confirm("Switching to Exam Mode will reset all your answers and start a 105-minute timer. Continue?")) {
+          toggleMode(true);
+        } else {
+          e.target.checked = false;
+        }
+      } else {
+        if (confirm("Switching back to Study Mode will reset your exam progress. Continue?")) {
+          toggleMode(false);
+        } else {
+          e.target.checked = true;
+        }
       }
-      renderCurrentView();
     });
   }
 
-  const chips = document.querySelectorAll(".filter-chips .chip");
-  chips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      chips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
-      state.activeFilter = chip.dataset.filter;
-      renderCurrentView();
+  const submitBtn = $(".submit-exam-btn");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to submit the exam? You cannot change answers after submitting.")) {
+        submitExam();
+      }
     });
-  });
-}
-
-window.clearSearch = function () {
-  const searchInput = document.getElementById("search-input");
-  const clearBtn = document.getElementById("clear-search-btn");
-  if (searchInput) searchInput.value = "";
-  if (clearBtn) clearBtn.classList.add("hidden");
-  state.searchQuery = "";
-  renderCurrentView();
-};
-
-window.clearFilters = function () {
-  clearSearch();
-  state.activeFilter = "all";
-  document.querySelectorAll(".filter-chips .chip").forEach(c => {
-    c.classList.toggle("active", c.dataset.filter === "all");
-  });
-  renderCurrentView();
-};
-
-window.shuffleCurrentView = function () {
-  if (state.activeNavId === "dashboard") {
-    selectNav("all");
   }
-
-  const ids = state.questions.map(q => q.id);
-  for (let i = ids.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [ids[i], ids[j]] = [ids[j], ids[i]];
-  }
-
-  state.shuffledOrder = ids;
-  renderCurrentView();
-  showToast("🔀 Question order randomized.");
-};
-
-// ============================================================
-// SECTION 12: UTILITY HELPERS
-// ============================================================
-
-function showConfirmModal(title, msg, onOk) {
-  const overlay = document.getElementById("confirm-overlay");
-  const titleEl = document.getElementById("confirm-title");
-  const msgEl = document.getElementById("confirm-msg");
-  const okBtn = document.getElementById("confirm-ok-btn");
-
-  if (!overlay || !titleEl || !msgEl || !okBtn) {
-    if (confirm(msg)) onOk();
-    return;
-  }
-
-  titleEl.textContent = title;
-  msgEl.textContent = msg;
-
-  okBtn.onclick = () => {
-    closeConfirmModal();
-    onOk();
-  };
-
-  overlay.style.display = "flex";
-}
-
-window.closeConfirmModal = function () {
-  const overlay = document.getElementById("confirm-overlay");
-  if (overlay) overlay.style.display = "none";
-};
-
-function showToast(msg) {
-  const toast = document.getElementById("toast");
-  if (!toast) return;
-
-  toast.textContent = msg;
-  toast.classList.add("show");
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2600);
-}
-
-function arraysEqual(a, b) {
-  if (!Array.isArray(a) || !Array.isArray(b)) return false;
-  if (a.length !== b.length) return false;
-  const sortedA = [...a].sort();
-  const sortedB = [...b].sort();
-  return sortedA.every((val, idx) => val === sortedB[idx]);
 }
 
 function escapeHtml(str) {
@@ -1172,5 +960,39 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-// Kickoff
-document.addEventListener("DOMContentLoaded", initQuestionEngine);
+// ============================================================
+// SECTION 12: INITIALIZATION
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (sessionStorage.getItem("simulator_unlocked") === "true") {
+    unlockApp(true);
+  }
+
+  try {
+    const questions = await fetchAndParseQuestions();
+    state.questions = questions;
+
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) loadingOverlay.classList.add("hidden");
+
+    renderTabButtons();
+    renderDashboard();
+    renderAllQuizTabs();
+    updateScoreMatrix();
+    updateTabProgress();
+    bindEvents();
+    setActiveTab(0);
+  } catch (err) {
+    console.error("Initialization error:", err);
+    const loadingCard = document.querySelector(".loading-card");
+    if (loadingCard) {
+      loadingCard.innerHTML = `
+        <div style="font-size:2.5rem;margin-bottom:10px">⚠️</div>
+        <h2>Error Loading Questions</h2>
+        <p>${err.message}</p>
+        <button onclick="location.reload()" style="padding:10px 20px;background:#fff;color:#0176D3;border:none;border-radius:6px;font-weight:700;cursor:pointer;margin-top:12px">Retry</button>
+      `;
+    }
+  }
+});

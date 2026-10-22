@@ -3,194 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Salesforce Certified Data 360 Consultant Exam Simulator — 6 Official Blueprint Domains, Mastery Tracking, and Proportional 60-Question Simulation.">
-  <title>Salesforce Certified Data 360 Consultant Exam Simulator — 6 Official Domains</title>
+  <meta name="description" content="Interactive Salesforce Certified Data 360 Consultant Exam Simulator with 95 practice questions, dual-shuffle engine, study and exam modes, and real-time scoring.">
+  <title>Data 360 Consultant Simulator — 95 Practice Questions</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'><path fill='%2300A1E0' d='M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230176D3'%3E%3Cpath d='M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z'/%3E%3C/svg%3E">
 </head>
-<body class="theme-slate">
+<body>
 
   <!-- ===== LOADING OVERLAY ===== -->
   <div class="loading-overlay" id="loading-overlay">
-    <div class="loading-card neumorphic-card">
+    <div class="loading-card">
       <div class="loading-spinner"></div>
-      <h2>Initializing Data 360 Exam Engine</h2>
-      <p>Mapping 95 questions to the 6 official certification blueprint domains…</p>
+      <h2>Loading Question Bank</h2>
+      <p>Parsing 95 questions from Data-Con-101.md…</p>
       <div class="loading-progress-bar"><div class="loading-progress-fill" id="loading-fill"></div></div>
     </div>
   </div>
 
   <!-- ===== PASSWORD GATE OVERLAY ===== -->
   <div class="password-overlay" id="password-overlay">
-    <div class="password-card neumorphic-card">
-      <div class="password-badge">🔒 Candidate Access Portal</div>
-      <div class="password-icon-wrapper">
-        <svg class="sf-cloud-card-svg" viewBox="0 0 640 512" width="72" height="58" aria-label="Salesforce">
-          <path fill="#00A1E0" d="M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z"/>
+    <div class="password-card">
+      <div class="password-lock-icon">
+        <svg class="sf-cloud-svg" viewBox="0 0 24 24" width="60" height="60" fill="#fff">
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
         </svg>
       </div>
-      <h2>Data 360 Consultant Suite</h2>
-      <p>Please enter your access key to unlock the 6-domain practice platform.</p>
+      <h2>Authorized Access Only</h2>
+      <p>Please enter the access password to start the simulator.</p>
       <form id="password-form" class="password-form" onsubmit="checkPassword(event)">
         <div class="password-input-wrapper">
-          <input type="password" id="password-input" placeholder="Enter access key" required autofocus autocomplete="current-password">
-          <div class="password-error" id="password-error" style="display: none;">❌ Incorrect access key. Please try again.</div>
+          <input type="password" id="password-input" placeholder="Enter password" required autofocus autocomplete="current-password">
+          <div class="password-error" id="password-error" style="display: none;">❌ Incorrect password. Please try again.</div>
         </div>
-        <div class="password-btn-group">
-          <button type="submit" class="neumorphic-btn primary-btn" style="width: 100%;">Unlock Suite</button>
-        </div>
+        <button type="submit" class="password-submit-btn">Unlock Simulator</button>
       </form>
     </div>
   </div>
 
   <!-- ===== APP HEADER ===== -->
-  <header class="app-header hidden" id="app-header">
+  <header class="app-header hidden">
     <div class="header-top">
       <!-- Brand -->
       <div class="header-brand">
-        <div class="brand-logo-badge neumorphic-emboss" title="Salesforce Certified Data 360">
-          <svg class="sf-cloud-logo-svg" viewBox="0 0 640 512" width="30" height="24" aria-label="Salesforce">
-            <path fill="#00A1E0" d="M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z"/>
+        <div class="logo-icon">
+          <svg class="sf-cloud-svg" viewBox="0 0 24 24" width="36" height="36" fill="#fff">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
           </svg>
         </div>
-        <div class="brand-text">
-          <h1>
-            Data 360 Consultant Simulator
-            <span class="cert-pill">Official 6 Domains</span>
-          </h1>
-          <div class="brand-meta">
-            <span class="meta-tag">Data-Con-101.md Verified</span>
-            <span class="meta-tag">60-Q Proportional Exam Engine</span>
-            <span class="meta-tag pass-target">Target: 68% Pass</span>
-          </div>
-        </div>
+        <h1>
+          Data 360 Consultant Simulator
+          <span>Salesforce Certified · 95 Practice Questions</span>
+        </h1>
       </div>
 
-      <!-- Score Telemetry -->
-      <div class="score-telemetry">
-        <div class="telemetry-pill neumorphic-emboss" id="pill-progress">
-          <span class="pill-label">Deck Progress</span>
-          <span class="pill-value" id="progress-text">0 / 95</span>
-          <div class="pill-bar"><div class="pill-bar-fill" id="progress-bar-fill"></div></div>
+      <!-- Global Score Matrix -->
+      <div class="score-matrix">
+        <div class="score-pill" id="pill-progress">
+          📝 Progress: <span class="pill-value">0/95</span>
         </div>
-        <div class="telemetry-pill neumorphic-emboss" id="pill-accuracy">
-          <span class="pill-label">Live Accuracy</span>
-          <span class="pill-value" id="accuracy-text">0.0%</span>
+        <div class="score-pill" id="pill-score">
+          🎯 Score: <span class="pill-value">0.0%</span>
         </div>
-        <div class="telemetry-pill neumorphic-emboss" id="pill-status">
-          <span class="pill-label">Exam Readiness</span>
-          <span class="pill-value status-badge" id="status-badge">Not Started</span>
+        <div class="score-pill" id="pill-status">
+          📊 Status: <span class="pill-value">Not Started</span>
         </div>
 
-        <!-- Exam Timer -->
-        <div class="exam-timer neumorphic-emboss hidden" id="exam-timer">
+        <!-- Exam Timer (hidden by default) -->
+        <div class="exam-timer" id="exam-timer">
           <span class="timer-icon">⏱️</span>
           <span id="timer-text">01:45:00</span>
         </div>
 
-        <!-- Submit Exam Button -->
-        <button class="neumorphic-btn exam-submit-btn hidden" id="submit-exam-btn">Submit Exam</button>
+        <!-- Submit Exam Button (hidden by default) -->
+        <button class="submit-exam-btn" id="submit-exam-btn">Submit Exam</button>
       </div>
 
-      <!-- Mode & Action Controls -->
-      <div class="header-actions">
-        <div class="mode-segmented-control neumorphic-emboss">
-          <button type="button" class="mode-seg-btn active" id="btn-mode-study" onclick="switchMode('study')">
-            <span>📖</span> Study Mode
-          </button>
-          <button type="button" class="mode-seg-btn" id="btn-mode-exam" onclick="switchMode('exam')">
-            <span>⏱️</span> Exam Mode
-          </button>
-        </div>
-
-        <button type="button" class="neumorphic-btn btn-sm" onclick="startProportionalExam()" title="Generate a 60-question simulation balanced by official domain weights">
-          🎯 60-Q Exam
-        </button>
-        <button type="button" class="neumorphic-btn btn-sm" onclick="shuffleCurrentView()" title="Randomize question sequence">
-          🔀 Shuffle
-        </button>
-        <button type="button" class="neumorphic-btn btn-sm reset-btn" onclick="resetAllProgress()" title="Reset answers & progress">
-          🔄 Reset
-        </button>
+      <!-- Mode Toggle -->
+      <div class="mode-toggle-wrapper">
+        <label for="mode-toggle">Study</label>
+        <input type="checkbox" class="toggle-switch" id="mode-toggle" aria-label="Toggle between Study and Exam mode">
+        <label for="mode-toggle">Exam</label>
       </div>
     </div>
 
-    <!-- Neumorphic Segmented Navigation Bar -->
-    <nav class="domain-nav-container" id="domain-nav-container">
-      <div class="domain-nav-bar neumorphic-deboss" id="domain-nav-bar" role="tablist"></div>
-    </nav>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Exam sections"></nav>
   </header>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main id="app-container" class="hidden">
-    <!-- Active Domain Banner / Context -->
-    <div class="domain-context-banner neumorphic-card hidden" id="domain-context-banner">
-      <div class="domain-banner-left">
-        <div class="domain-banner-icon" id="banner-domain-icon">⚡</div>
-        <div>
-          <h2 id="banner-domain-title">Domain Title</h2>
-          <p id="banner-domain-desc">Official Blueprint Weight: <span id="banner-domain-weight">0%</span> · Sub-Topics: <span id="banner-domain-subtopics"></span></p>
-        </div>
-      </div>
-      <div class="domain-banner-right">
-        <div class="domain-banner-stat">
-          <span class="banner-stat-label">Domain Mastery</span>
-          <span class="banner-stat-value" id="banner-domain-mastery">0%</span>
-        </div>
-      </div>
-    </div>
+    <div class="tab-content">
+      <!-- Tab 0: Dashboard & Guide -->
+      <div class="tab-pane active" id="tab-0" role="tabpanel"></div>
 
-    <!-- Filter & Search Bar -->
-    <div class="filter-bar" id="filter-bar">
-      <div class="search-wrapper neumorphic-deboss">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Search questions, options, concepts (e.g. Identity Resolution, DMO, S3, Flow)..." aria-label="Search questions">
-        <button type="button" id="clear-search-btn" class="clear-search-btn hidden" onclick="clearSearch()">✕</button>
-      </div>
-      <div class="filter-chips" id="filter-chips">
-        <button class="chip active neumorphic-chip" data-filter="all">All (<span id="count-all">0</span>)</button>
-        <button class="chip neumorphic-chip" data-filter="unanswered">Unanswered (<span id="count-unanswered">0</span>)</button>
-        <button class="chip neumorphic-chip" data-filter="answered">Answered (<span id="count-answered">0</span>)</button>
-        <button class="chip neumorphic-chip" data-filter="correct">Correct (<span id="count-correct">0</span>)</button>
-        <button class="chip neumorphic-chip" data-filter="incorrect">Incorrect (<span id="count-incorrect">0</span>)</button>
-        <button class="chip neumorphic-chip" data-filter="bookmarked">Bookmarked (<span id="count-bookmarked">0</span>)</button>
-      </div>
-    </div>
+      <!-- Tab 1: Solution Positioning (14%) -->
+      <div class="tab-pane" id="tab-1" role="tabpanel"></div>
 
-    <!-- Tab Content Area -->
-    <div class="tab-content-area" id="tab-content-area"></div>
+      <!-- Tab 2: Data 360 Setup and Administration (13%) -->
+      <div class="tab-pane" id="tab-2" role="tabpanel"></div>
+
+      <!-- Tab 3: Data Source Connection and Ingestion (18%) -->
+      <div class="tab-pane" id="tab-3" role="tabpanel"></div>
+
+      <!-- Tab 4: Harmonization and Unification (17%) -->
+      <div class="tab-pane" id="tab-4" role="tabpanel"></div>
+
+      <!-- Tab 5: Data Enhancements, Sharing, and Analysis (18%) -->
+      <div class="tab-pane" id="tab-5" role="tabpanel"></div>
+
+      <!-- Tab 6: Data Activations and Utilization (20%) -->
+      <div class="tab-pane" id="tab-6" role="tabpanel"></div>
+
+      <!-- Tab 7: Full 95-Question Simulator -->
+      <div class="tab-pane" id="tab-7" role="tabpanel"></div>
+    </div>
   </main>
 
-  <!-- ===== EXAM RESULTS MODAL ===== -->
+  <!-- ===== EXAM RESULTS OVERLAY ===== -->
   <div class="results-overlay" id="results-overlay">
-    <div class="results-modal neumorphic-card" id="results-modal"></div>
+    <div class="results-modal"></div>
   </div>
 
-  <!-- ===== CONFIRMATION MODAL ===== -->
-  <div class="confirm-overlay" id="confirm-overlay" style="display: none;">
-    <div class="confirm-modal neumorphic-card">
-      <div class="confirm-icon">⚠️</div>
-      <h3 id="confirm-title">Are you sure?</h3>
-      <p id="confirm-msg">This action cannot be undone.</p>
-      <div class="confirm-actions">
-        <button class="neumorphic-btn" onclick="closeConfirmModal()">Cancel</button>
-        <button class="neumorphic-btn primary-btn" id="confirm-ok-btn">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== TOAST ===== -->
-  <div class="toast neumorphic-card" id="toast"></div>
-
-  <!-- ===== SCRIPTS ===== -->
-  <!-- 1. Official Exam Domains Config -->
-  <script src="src/config/exam-domains.js"></script>
-  <!-- 2. Question Dataset -->
+  <!-- ===== APPLICATION SCRIPT ===== -->
   <script src="questions.js"></script>
-  <!-- 3. Question Engine -->
   <script src="app.js"></script>
 
 </body>
