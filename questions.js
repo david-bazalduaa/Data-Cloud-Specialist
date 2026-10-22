@@ -1,5 +1,5 @@
-// Salesforce Certified Data Cloud Specialist & Consultant Exam Questions
-// Generated autonomously from Data-Con-101.md with verified technical answer keys and explanations.
+// Salesforce Certified Data 360 / Data Cloud Consultant Exam Questions
+// Generated autonomously from Data-Con-101.md mapped to the official 6 exam domains.
 // Total questions: 95
 
 const DATA_CLOUD_QUESTIONS = [
@@ -28,7 +28,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Use batch transforms to create a second data lake object. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -56,7 +58,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The lifecycle point is that Data 360 configuration is metadata, but it still has product-specific packaging and activation steps. Install the data kit from the Data 360 Setup menu to map and activate the components. is the right fit because Data 360 components are not fully usable just because generic deployment succeeded. The consultant must complete the Data 360-specific lifecycle step so streams, mappings, insights, and rules are correctly registered in the target environment. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -84,7 +88,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The analytics requirement determines whether the logic belongs in an insight, a semantic metric, or a query-time layer. Create a calculated field in the semantic layer. matches the need because the business is asking for reusable metrics, dimensions, or aggregation behavior that consumers can filter and analyze. Data 360 separates raw harmonized data from analytical definitions so that dashboards, Tableau experiences, and segment logic remain consistent. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -112,7 +118,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The governance lens is least privilege, purpose limitation, and honoring privacy operations against the individual profile. Carefully consider asking for sensitive data such as age, gender, and ethnicity. supports the governance requirement because Data 360 implementations should minimize unnecessary access, avoid over-collection, and process deletion or consent requests at the profile level where Salesforce expects them. The safest design is explicit, auditable, and limited to the business purpose. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -140,7 +148,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Refresh Data Stream > Identity Resolution > Calculated Insight fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -168,7 +178,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The industry value comes from applying unified, governed data to a patient-centered outcome rather than an unrelated operational task. Activating a Unified Health Score to provide a holistic view of patient wellness and engagement is the useful Data 360 pattern because it applies unified data to a healthcare journey outcome: better context, more relevant engagement, and a complete view of wellness or interaction history. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -196,7 +208,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The governance lens is least privilege, purpose limitation, and honoring privacy operations against the individual profile. Deletes the specified Individual and records from any data model object/data lake object related to the Individual supports the governance requirement because Data 360 implementations should minimize unnecessary access, avoid over-collection, and process deletion or consent requests at the profile level where Salesforce expects them. The safest design is explicit, auditable, and limited to the business purpose. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -224,7 +238,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Include the Calculated Insight attribute in activation. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -252,7 +268,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, When a column is added or removed, the CRM Connector performs a full refresh. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -280,7 +298,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. A data model object (DMO) to map and relate the data fields is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -308,7 +328,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Data > Data Lake Object > Map to Data Model Object > Identity ResolutionandUnification > Segmentation > Activation works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -336,7 +358,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. The calculated insight is missing a relationship to the Unified Individual data model object (DMO). is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -364,7 +388,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. Auditing training data to identify which segments of the customer base are underrepresented fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -392,7 +418,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. To unify and harmonize data from multiple sources to create a complete customer profile is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -420,7 +448,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Place the attributes for product color and product type in a single container. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -448,7 +478,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Create a data kit. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -476,7 +508,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Flow works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -504,7 +538,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Ignores empty fields when running match rules is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -532,7 +568,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Structured Query Language (SQL) fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -560,7 +598,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Segment on the Sales Order DMO is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -588,7 +628,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Contact Point Email fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -616,7 +658,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The lifecycle point is that Data 360 configuration is metadata, but it still has product-specific packaging and activation steps. Only the metadata, such as data model object (DMO) definitions and mappings is the right fit because Data 360 components are not fully usable just because generic deployment succeeded. The consultant must complete the Data 360-specific lifecycle step so streams, mappings, insights, and rules are correctly registered in the target environment. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -644,7 +688,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Sales Order > Individual > Unified Individual fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -672,7 +718,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Data Lake Object fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -700,7 +748,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Create a composite key by combining two or more source fields through a formula field. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -728,7 +778,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Activation membership to select the Loyalty Program Member DMO and its associated fields works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -756,7 +808,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Confirm the View All object permission is enabled in the source Salesforce CRM org. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -784,7 +838,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The analytics requirement determines whether the logic belongs in an insight, a semantic metric, or a query-time layer. The data reflects the state of the last time the insight was batch processed. matches the need because the business is asking for reusable metrics, dimensions, or aggregation behavior that consumers can filter and analyze. Data 360 separates raw harmonized data from analytical definitions so that dashboards, Tableau experiences, and segment logic remain consistent. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -812,7 +868,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Create a streaming insight with a data action to Marketing Cloud Engagement. is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -840,7 +898,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Use Data 360 Data Sharing to share unified customer data directly to Snowflake. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -868,7 +928,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Create a reusable container block with common criteria. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.\n\n[Technical Audit Note: The source study guide designated Option C ('Create a reusable container block with common criteria'). In Salesforce Data Cloud, 'reusable container blocks' do not exist on the segmentation canvas. The architecturally verified feature for sharing centrally managed, regularly updated exclusion criteria across brand teams is 'Create a nested segment' (Option D). When the nested exclusion segment updates monthly, all dependent segments automatically inherit the updated criteria.]",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -896,7 +958,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. The consultant should use a Regression model because the target outcome is a numeric measure. fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -924,7 +988,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Query federation pushes SQL queries to the external system's compute layer. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -952,7 +1018,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The governance lens is least privilege, purpose limitation, and honoring privacy operations against the individual profile. Use separate data spaces for each business unit supports the governance requirement because Data 360 implementations should minimize unnecessary access, avoid overcollection, and process deletion or consent requests at the profile level where Salesforce expects them. The safest design is explicit, auditable, and limited to the business purpose. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -980,7 +1048,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, B2C Commerce Starter Bundles plus a custom extract fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1008,7 +1078,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Einstein Studio Bring Your Own Model (BYOM) is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1036,7 +1108,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Configure a Party Identification match rule. is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1064,7 +1138,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Consolidating three systems (Sales, Service, and Marketing Cloud) to provide a \"Single View of the Customer\" for high-tier support agents is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -1092,7 +1168,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. Retrieval Augmented Generation (RAG) to ground AI prompts with relevant internal data fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -1120,7 +1198,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. The data provider must include these additional fields as segmentation attributes within the use case template configuration. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1148,7 +1228,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, CONCAT fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1176,7 +1258,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Enable Value Suggestion for text fields on DMOs. fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1204,7 +1288,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. Semantic Model Metrics fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1232,7 +1318,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. A profile is only processed if a pre-processing step confirms a change in its data since the last processing run. is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1260,7 +1348,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Use a nested segment for \"Platinum Loyalty\" and add a separate container for the minimum spend within OR operator. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1288,7 +1378,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Data 360 Data Shares aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1316,7 +1408,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Profile ExplorerandQuery Editor is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.\n\n[Technical Audit Note: Although the prompt asks 'Which two features...', the multiple-choice options bundle pairs together using 'and'. Option A correctly identifies both Profile Explorer (used to inspect unified customer 360 profiles and linked source records) and Query Editor (used to run ANSI SQL queries against Unified Individual and link DMOs).]",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1344,7 +1438,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Query federation with acceleration (Caching) aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1372,7 +1468,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Apply contact point filtering when creating an activation works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1400,7 +1498,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Establish a connection in the Data 360 Setup using the specific provider's credentials. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1428,7 +1528,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Modifying a ruleset that increases the number of matched profiles is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1456,7 +1558,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Extend the relevant standard DMOs by adding custom fields to accommodate the missing data. fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1484,7 +1588,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The operational requirement is to move Data 360 context into the CRM process at the right latency and without unnecessary replication. Drag the native Data 360 Related List Enrichment onto the Lead Lightning page and configure the relevant Engagement data model objects (DMOs). meets the operational need because Data 360 can surface context or trigger action in Salesforce without forcing every engagement, score, or profile attribute to be copied into custom CRM objects. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1512,7 +1618,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. The Data 360 Query Editor fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1540,7 +1648,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. It defines metadata and paths to identify specific files for the data stream and track updates. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1568,7 +1678,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, The target field will only hold the date part and ignore the time part. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1596,7 +1708,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Waterfall Segmentation works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1624,7 +1738,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Tableau is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1652,7 +1768,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The governance lens is least privilege, purpose limitation, and honoring privacy operations against the individual profile. Through Consent API supports the governance requirement because Data 360 implementations should minimize unnecessary access, avoid over-collection, and process deletion or consent requests at the profile level where Salesforce expects them. The safest design is explicit, auditable, and limited to the business purpose. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -1680,7 +1798,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Calculated Insight fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1708,7 +1828,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Apply a 30-day date filter on the Sales Order DMO within the activation. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1736,7 +1858,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, To enable efficient querying on non-primary key attributes fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1764,7 +1888,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Identity Resolution is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1792,7 +1918,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Map the Customer_Tax_ID from both systems to the Party Identification object with a consistent Identification Name. is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -1820,7 +1948,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. Configure cached acceleration to store and refresh external data for repeat queries. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1848,7 +1978,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The governance lens is least privilege, purpose limitation, and honoring privacy operations against the individual profile. Navigate to Company Information in the sandbox and select Match Production Licenses. supports the governance requirement because Data 360 implementations should minimize unnecessary access, avoid over-collection, and process deletion or consent requests at the profile level where Salesforce expects them. The safest design is explicit, auditable, and limited to the business purpose. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -1876,7 +2008,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Segmentation exclude rules works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -1904,7 +2038,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Use Consent API to request deletion of the customer's information. is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -1932,7 +2068,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. Connect the trained model in Data 360 in Bring Your Own Model (BYOM). fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -1960,7 +2098,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The lifecycle point is that Data 360 configuration is metadata, but it still has product-specific packaging and activation steps. Data Package Kit Definition is the right fit because Data 360 components are not fully usable just because generic deployment succeeded. The consultant must complete the Data 360-specific lifecycle step so streams, mappings, insights, and rules are correctly registered in the target environment. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -1988,7 +2128,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The operational requirement is to move Data 360 context into the CRM process at the right latency and without unnecessary replication. The data action must be mapped to a platform event that the flow is subscribed to. meets the operational need because Data 360 can surface context or trigger action in Salesforce without forcing every engagement, score, or profile attribute to be copied into custom CRM objects. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -2016,7 +2158,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Create and run a new ruleset with stricter matching criteria, compare the two rulesets to review and verify the results, and then migrate to the new ruleset once approved. is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -2044,7 +2188,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Streaming insight is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2072,7 +2218,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. It unifies data into a single profile to provide personalized experiences across all touch points. fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -2100,7 +2248,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The AI pattern works when the model is grounded in appropriate Data 360 data and its outputs can be operationalized safely. As an attribute on a related data model object (DMO) fits because predictions or generative experiences are only useful when the data is representative, governed, and connected to Salesforce execution patterns such as scoring jobs, Flow, or grounded retrieval. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2128,7 +2278,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Matching rules within the Identity Resolution settings to link source records is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -2156,7 +2308,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Many-to-One (N:1) fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -2184,7 +2338,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The analytics requirement determines whether the logic belongs in an insight, a semantic metric, or a query-time layer. At least one measure and one dimension matches the need because the business is asking for reusable metrics, dimensions, or aggregation behavior that consumers can filter and analyze. Data 360 separates raw harmonized data from analytical definitions so that dashboards, Tableau experiences, and segment logic remain consistent. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2212,7 +2368,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The architecture principle is to avoid unnecessary data movement when the external platform can be queried or shared securely. The data stays in its original location, and only the query results are shared. aligns with the zero-copy model because Data 360 can expose or query governed data without building another extract pipeline. That is important when teams want freshness, reduced duplication, and lower operational burden while still respecting permissions and platform boundaries. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2240,7 +2398,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, To transform a datetime field into a date field for use in data mapping fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2268,7 +2428,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The analytics requirement determines whether the logic belongs in an insight, a semantic metric, or a query-time layer. Streaming Insight matches the need because the business is asking for reusable metrics, dimensions, or aggregation behavior that consumers can filter and analyze. Data 360 separates raw harmonized data from analytical definitions so that dashboards, Tableau experiences, and segment logic remain consistent. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2296,7 +2458,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, The Tenant Specific Endpoint is auto-generated in Data 360 when setting the connector. fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2324,7 +2488,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The analytics requirement determines whether the logic belongs in an insight, a semantic metric, or a query-time layer. Use the Profile API because it is optimized for high-speed retrieval of unified profile attributes and calculated insights. matches the need because the business is asking for reusable metrics, dimensions, or aggregation behavior that consumers can filter and analyze. Data 360 separates raw harmonized data from analytical definitions so that dashboards, Tableau experiences, and segment logic remain consistent. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2352,7 +2518,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Create new segments using nested segments. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -2380,7 +2548,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Data lake objects, data model objects, calculated insights is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2408,7 +2578,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Text fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Ingestion & Integration",
+    "domainId": "connection_and_ingestion",
+    "topic": "Data Source Connection and Ingestion",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2436,7 +2608,9 @@ const DATA_CLOUD_QUESTIONS = [
       "B"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Value suggestion is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -2464,7 +2638,9 @@ const DATA_CLOUD_QUESTIONS = [
       "C"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Use a nested segment for \"Platinum Loyalty\" and add a separate container for the minimum spend with an OR operator. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -2492,7 +2668,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. All Data 360 metadata is replicated from the current version of production instance, and the ingested records are cleared and must be re-ingested. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "setup_and_administration",
+    "topic": "Data 360 Setup and Administration",
+    "domainWeight": 13,
     "sourceVerified": true
   },
   {
@@ -2520,7 +2698,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The design point is to preserve source fidelity while shaping data only where Data 360 processing needs it. Here, Unifying fragmented customer and business data into a single, comprehensive view fits because it changes the shape, keying, or refresh behavior at the Data 360 layer instead of forcing the source system to carry an analytics-specific design. In production, this keeps the upstream application simpler and gives the data team a repeatable way to prepare records for mapping, identity resolution, insights, or segmentation. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -2548,7 +2728,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The core Data 360 principle is harmonization: bring data from multiple systems into a governed model that business teams can use consistently. Improving customer service resolution times by giving support agents a 360-degree view is the strongest answer because Data 360 is designed to unify, harmonize, and activate customer and business data across systems. The platform is not merely a dashboard, archive, or point solution. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Data Governance, Privacy & Administration",
+    "domainId": "solution_positioning",
+    "topic": "Solution Positioning",
+    "domainWeight": 14,
     "sourceVerified": true
   },
   {
@@ -2576,7 +2758,9 @@ const DATA_CLOUD_QUESTIONS = [
       "D"
     ],
     "explanation": "The segmentation and activation design starts with grain: who or what the audience represents, and which attributes must travel with it. Set a refresh schedule for the calculated insights to occur every hour. works because Data 360 segmentation and activation must respect audience grain, relationship paths, and activation payload rules. A segment can qualify the audience, but activation determines which related attributes or contact points are actually sent downstream. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Insights & Analytics",
+    "domainId": "enhancements_sharing_analysis",
+    "topic": "Data Enhancements, Sharing, and Analysis",
+    "domainWeight": 18,
     "sourceVerified": true
   },
   {
@@ -2604,7 +2788,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Sets the priority of specific data sources when building attributes in a unified profile, such as a first or last name is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rulesdriven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably.",
-    "topic": "Identity Resolution & Unification",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   },
   {
@@ -2632,7 +2818,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The identity logic is about linking source profiles safely, then choosing the best surviving values for the unified profile. Related List Enrichment is appropriate because identity resolution needs reliable match inputs, qualified identifiers, and controlled reconciliation. It is not just deduplication; it is a rules-driven process that connects source records into a trusted unified profile. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. This is the nuance exam questions often test: the platform capability must match both the technical layer and the business timing requirement, not just sound related to data.",
-    "topic": "Segmentation & Activation",
+    "domainId": "activations_and_utilization",
+    "topic": "Data Activations and Utilization",
+    "domainWeight": 20,
     "sourceVerified": true
   },
   {
@@ -2660,7 +2848,9 @@ const DATA_CLOUD_QUESTIONS = [
       "A"
     ],
     "explanation": "The modeling decision should make the data understandable, reusable, and correctly related before segmentation or activation depends on it. Map standard fields to the Sales Order DMO and add a custom attribute for the fee. fits because Data 360 depends on mappings and relationships between data lake objects and data model objects. Correct modeling lets the same attribute mean the same thing across source systems and prevents downstream users from building logic on ambiguous fields. The distractors fall short because they either move the problem into the wrong system, add needless duplication, ignore Data 360 object relationships, or rely on a feature built for a different lifecycle stage. In a real implementation, those choices usually create brittle pipelines, stale data, security exposure, or segments that look correct on paper but fail when activated. Thinking like an architect, the selected option places the logic where Data 360 can govern it and reuse it reliably. ### **<mark>Thank You for Purchasing DATA-CON-101 PDF</mark>** # _<u><mark>[Offer]</mark></u>_ <u><mark>Improve Your Exam</mark></u> <mark>Preparation with our Practice Exam Software</mark> <mark>Use Coupon “20OFF” for special 20% discount on the purchase of Practice Test Software. Practice Exam Software helps you validate your preparation in a simulated exam environment.</mark> #### **<mark>Download Free Pract</mark> i** **<mark>ce Test Demo from our site:</mark>**",
-    "topic": "Data Modeling & Harmonization",
+    "domainId": "harmonization_and_unification",
+    "topic": "Harmonization and Unification",
+    "domainWeight": 17,
     "sourceVerified": true
   }
 ];

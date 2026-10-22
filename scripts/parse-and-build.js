@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { EXAM_DOMAINS } = require("../src/config/exam-domains.js");
 
 const SOURCE_FILE = path.join(__dirname, "..", "Data-Con-101.md");
 const OUTPUT_JSON = path.join(__dirname, "..", "questions.json");
@@ -7,103 +8,103 @@ const OUTPUT_JS = path.join(__dirname, "..", "questions.js");
 
 const content = fs.readFileSync(SOURCE_FILE, "utf8");
 
-// Topic / Domain Category mapping based on official Salesforce Certified Data Cloud Consultant Exam blueprint
-const TOPIC_MAPPING = {
-  1: "Data Ingestion & Integration",
-  2: "Data Governance, Privacy & Administration",
-  3: "Insights & Analytics",
-  4: "Data Governance, Privacy & Administration",
-  5: "Data Ingestion & Integration",
-  6: "Data Modeling & Harmonization",
-  7: "Data Governance, Privacy & Administration",
-  8: "Segmentation & Activation",
-  9: "Data Ingestion & Integration",
-  10: "Data Modeling & Harmonization",
-  11: "Data Modeling & Harmonization",
-  12: "Insights & Analytics",
-  13: "Insights & Analytics",
-  14: "Data Modeling & Harmonization",
-  15: "Segmentation & Activation",
-  16: "Data Ingestion & Integration",
-  17: "Segmentation & Activation",
-  18: "Identity Resolution & Unification",
-  19: "Insights & Analytics",
-  20: "Segmentation & Activation",
-  21: "Data Modeling & Harmonization",
-  22: "Data Governance, Privacy & Administration",
-  23: "Insights & Analytics",
-  24: "Data Modeling & Harmonization",
-  25: "Data Ingestion & Integration",
-  26: "Segmentation & Activation",
-  27: "Data Ingestion & Integration",
-  28: "Insights & Analytics",
-  29: "Insights & Analytics",
-  30: "Data Ingestion & Integration",
-  31: "Segmentation & Activation",
-  32: "Insights & Analytics",
-  33: "Data Ingestion & Integration",
-  34: "Data Governance, Privacy & Administration",
-  35: "Data Ingestion & Integration",
-  36: "Insights & Analytics",
-  37: "Identity Resolution & Unification",
-  38: "Data Governance, Privacy & Administration",
-  39: "Insights & Analytics",
-  40: "Data Governance, Privacy & Administration",
-  41: "Data Ingestion & Integration",
-  42: "Data Modeling & Harmonization",
-  43: "Insights & Analytics",
-  44: "Identity Resolution & Unification",
-  45: "Segmentation & Activation",
-  46: "Data Ingestion & Integration",
-  47: "Identity Resolution & Unification",
-  48: "Data Ingestion & Integration",
-  49: "Segmentation & Activation",
-  50: "Data Ingestion & Integration",
-  51: "Identity Resolution & Unification",
-  52: "Data Modeling & Harmonization",
-  53: "Segmentation & Activation",
-  54: "Insights & Analytics",
-  55: "Data Ingestion & Integration",
-  56: "Data Ingestion & Integration",
-  57: "Segmentation & Activation",
-  58: "Insights & Analytics",
-  59: "Data Governance, Privacy & Administration",
-  60: "Insights & Analytics",
-  61: "Segmentation & Activation",
-  62: "Data Ingestion & Integration",
-  63: "Identity Resolution & Unification",
-  64: "Identity Resolution & Unification",
-  65: "Data Ingestion & Integration",
-  66: "Data Governance, Privacy & Administration",
-  67: "Segmentation & Activation",
-  68: "Data Governance, Privacy & Administration",
-  69: "Insights & Analytics",
-  70: "Data Governance, Privacy & Administration",
-  71: "Segmentation & Activation",
-  72: "Identity Resolution & Unification",
-  73: "Insights & Analytics",
-  74: "Data Modeling & Harmonization",
-  75: "Insights & Analytics",
-  76: "Identity Resolution & Unification",
-  77: "Data Modeling & Harmonization",
-  78: "Insights & Analytics",
-  79: "Data Governance, Privacy & Administration",
-  80: "Data Ingestion & Integration",
-  81: "Insights & Analytics",
-  82: "Data Ingestion & Integration",
-  83: "Insights & Analytics",
-  84: "Segmentation & Activation",
-  85: "Data Modeling & Harmonization",
-  86: "Data Ingestion & Integration",
-  87: "Data Modeling & Harmonization",
-  88: "Segmentation & Activation",
-  89: "Data Governance, Privacy & Administration",
-  90: "Data Modeling & Harmonization",
-  91: "Data Governance, Privacy & Administration",
-  92: "Insights & Analytics",
-  93: "Identity Resolution & Unification",
-  94: "Segmentation & Activation",
-  95: "Data Modeling & Harmonization"
+// Strict 1-to-1 mapping of questions to official 6 exam domains
+const DOMAIN_MAPPING = {
+  1: "connection_and_ingestion",
+  2: "setup_and_administration",
+  3: "enhancements_sharing_analysis",
+  4: "solution_positioning",
+  5: "connection_and_ingestion",
+  6: "solution_positioning",
+  7: "setup_and_administration",
+  8: "activations_and_utilization",
+  9: "connection_and_ingestion",
+  10: "harmonization_and_unification",
+  11: "harmonization_and_unification",
+  12: "enhancements_sharing_analysis",
+  13: "solution_positioning",
+  14: "solution_positioning",
+  15: "activations_and_utilization",
+  16: "setup_and_administration",
+  17: "activations_and_utilization",
+  18: "harmonization_and_unification",
+  19: "enhancements_sharing_analysis",
+  20: "activations_and_utilization",
+  21: "harmonization_and_unification",
+  22: "setup_and_administration",
+  23: "enhancements_sharing_analysis",
+  24: "connection_and_ingestion",
+  25: "connection_and_ingestion",
+  26: "activations_and_utilization",
+  27: "setup_and_administration",
+  28: "enhancements_sharing_analysis",
+  29: "activations_and_utilization",
+  30: "enhancements_sharing_analysis",
+  31: "activations_and_utilization",
+  32: "enhancements_sharing_analysis",
+  33: "connection_and_ingestion",
+  34: "setup_and_administration",
+  35: "connection_and_ingestion",
+  36: "enhancements_sharing_analysis",
+  37: "harmonization_and_unification",
+  38: "solution_positioning",
+  39: "solution_positioning",
+  40: "enhancements_sharing_analysis",
+  41: "connection_and_ingestion",
+  42: "harmonization_and_unification",
+  43: "enhancements_sharing_analysis",
+  44: "harmonization_and_unification",
+  45: "activations_and_utilization",
+  46: "enhancements_sharing_analysis",
+  47: "harmonization_and_unification",
+  48: "connection_and_ingestion",
+  49: "activations_and_utilization",
+  50: "connection_and_ingestion",
+  51: "harmonization_and_unification",
+  52: "harmonization_and_unification",
+  53: "activations_and_utilization",
+  54: "enhancements_sharing_analysis",
+  55: "connection_and_ingestion",
+  56: "connection_and_ingestion",
+  57: "activations_and_utilization",
+  58: "enhancements_sharing_analysis",
+  59: "setup_and_administration",
+  60: "enhancements_sharing_analysis",
+  61: "activations_and_utilization",
+  62: "connection_and_ingestion",
+  63: "harmonization_and_unification",
+  64: "harmonization_and_unification",
+  65: "connection_and_ingestion",
+  66: "setup_and_administration",
+  67: "activations_and_utilization",
+  68: "setup_and_administration",
+  69: "enhancements_sharing_analysis",
+  70: "setup_and_administration",
+  71: "activations_and_utilization",
+  72: "harmonization_and_unification",
+  73: "enhancements_sharing_analysis",
+  74: "solution_positioning",
+  75: "enhancements_sharing_analysis",
+  76: "harmonization_and_unification",
+  77: "harmonization_and_unification",
+  78: "enhancements_sharing_analysis",
+  79: "enhancements_sharing_analysis",
+  80: "connection_and_ingestion",
+  81: "enhancements_sharing_analysis",
+  82: "connection_and_ingestion",
+  83: "enhancements_sharing_analysis",
+  84: "activations_and_utilization",
+  85: "enhancements_sharing_analysis",
+  86: "connection_and_ingestion",
+  87: "harmonization_and_unification",
+  88: "activations_and_utilization",
+  89: "setup_and_administration",
+  90: "solution_positioning",
+  91: "solution_positioning",
+  92: "enhancements_sharing_analysis",
+  93: "harmonization_and_unification",
+  94: "activations_and_utilization",
+  95: "harmonization_and_unification"
 };
 
 // Technical audit corrections / notes
@@ -119,16 +120,13 @@ const AUDIT_OVERRIDES = {
 
 function cleanOptionText(text) {
   let cleaned = text.trim();
-  // Remove stray trailing markdown formatting or hashes
   cleaned = cleaned.replace(/#+$/, "").trim();
-  // Fix OCR/PDF concatenated words
   cleaned = cleaned.replace(/ResolutionandUnification/g, "Resolution and Unification");
   cleaned = cleaned.replace(/ExplorerandQuery Editor/g, "Explorer and Query Editor");
   cleaned = cleaned.replace(/ExplorerandActions/g, "Explorer and Actions");
   cleaned = cleaned.replace(/ResolutionandQuery API/g, "Resolution and Query API");
   cleaned = cleaned.replace(/ActionsandQuery API/g, "Actions and Query API");
   cleaned = cleaned.replace(/([a-z])and([A-Z])/g, "$1 and $2");
-  // Normalize whitespace
   cleaned = cleaned.replace(/\s+/g, " ").trim();
   return cleaned;
 }
@@ -156,7 +154,6 @@ for (let i = 0; i < matches.length; i++) {
 
   const rawLines = qAndOptions.split("\n").map(l => l.trim()).filter(l => l.length > 0);
   
-  // Filter out stray page headers/footers
   const cleanLines = rawLines.filter(l => {
     if (/^Questions & Answers PDF/i.test(l)) return false;
     if (/^P-\d+/i.test(l)) return false;
@@ -177,7 +174,7 @@ for (let i = 0; i < matches.length; i++) {
     throw new Error(`Could not find options for Question ${qNum}`);
   }
 
-  // Exact verbatim prompt
+  // Exact verbatim prompt preservation
   const prompt = cleanLines.slice(0, firstOptIndex).join(" ").replace(/\s+/g, " ").trim();
 
   // Parse options
@@ -227,7 +224,12 @@ for (let i = 0; i < matches.length; i++) {
     }
   }
 
-  const topic = TOPIC_MAPPING[qNum] || "Data Cloud Fundamentals";
+  const domainId = DOMAIN_MAPPING[qNum];
+  if (!domainId || !EXAM_DOMAINS[domainId]) {
+    throw new Error(`Question ${qNum} has missing or invalid domain mapping: ${domainId}`);
+  }
+
+  const domain = EXAM_DOMAINS[domainId];
 
   questions.push({
     id: `q${qNum}`,
@@ -235,7 +237,9 @@ for (let i = 0; i < matches.length; i++) {
     options,
     correctAnswers,
     explanation: cleanExpl,
-    topic,
+    domainId: domain.id,
+    topic: domain.name,
+    domainWeight: domain.weight,
     sourceVerified: true
   });
 }
@@ -245,8 +249,8 @@ fs.writeFileSync(OUTPUT_JSON, JSON.stringify(questions, null, 2), "utf8");
 console.log(`Successfully generated ${OUTPUT_JSON} with ${questions.length} questions.`);
 
 // Write JavaScript module file for browser compatibility
-const jsContent = `// Salesforce Certified Data Cloud Specialist & Consultant Exam Questions
-// Generated autonomously from Data-Con-101.md with verified technical answer keys and explanations.
+const jsContent = `// Salesforce Certified Data 360 / Data Cloud Consultant Exam Questions
+// Generated autonomously from Data-Con-101.md mapped to the official 6 exam domains.
 // Total questions: ${questions.length}
 
 const DATA_CLOUD_QUESTIONS = ${JSON.stringify(questions, null, 2)};

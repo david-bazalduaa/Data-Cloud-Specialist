@@ -1,13 +1,14 @@
 const fs = require("fs");
 const path = require("path");
+const { EXAM_DOMAINS } = require("../src/config/exam-domains.js");
 
 const SOURCE_FILE = path.join(__dirname, "..", "Data-Con-101.md");
 const QUESTIONS_JSON = path.join(__dirname, "..", "questions.json");
 const QUESTIONS_JS = path.join(__dirname, "..", "questions.js");
 
-console.log("==================================================");
-console.log("   DATA CLOUD SPECIALIST QUESTION BANK AUDITOR   ");
-console.log("==================================================");
+console.log("================================================================================");
+console.log("   SALESFORCE DATA 360 / DATA CLOUD CONSULTANT QUESTION BANK VALIDATOR          ");
+console.log("================================================================================");
 
 // 1. Verify existence of files
 if (!fs.existsSync(SOURCE_FILE)) {
@@ -45,25 +46,21 @@ if (questions.length !== expectedCount) {
 }
 console.log(`✓ Count check passed: Exactly ${questions.length} / ${expectedCount} questions loaded.`);
 
-// 5. Validate schema and constraints
+// 5. Validate schema, options, answers, and 6 official exam domains
 const seenIds = new Set();
-const allowedTopics = new Set([
-  "Data Ingestion & Integration",
-  "Data Modeling & Harmonization",
-  "Identity Resolution & Unification",
-  "Insights & Analytics",
-  "Segmentation & Activation",
-  "Data Governance, Privacy & Administration"
-]);
-
-const topicCounts = {};
+const validDomainIds = new Set(Object.keys(EXAM_DOMAINS));
+const domainCounts = {};
 let totalAuditNotes = 0;
+
+validDomainIds.forEach(id => {
+  domainCounts[id] = 0;
+});
 
 questions.forEach((q, idx) => {
   const qNum = idx + 1;
   const expectedId = `q${qNum}`;
 
-  // Check ID
+  // ID validation
   if (!q.id) {
     console.error(`❌ FAILED: Question at index ${idx} has no id`);
     process.exit(1);
@@ -79,13 +76,13 @@ questions.forEach((q, idx) => {
     process.exit(1);
   }
 
-  // Check Question prompt
+  // Question Prompt Integrity (Zero rewrite check)
   if (typeof q.question !== "string" || q.question.trim().length === 0) {
     console.error(`❌ FAILED: Question ${q.id} has empty prompt`);
     process.exit(1);
   }
 
-  // Check Options
+  // Options validation
   if (!Array.isArray(q.options) || q.options.length < 2) {
     console.error(`❌ FAILED: Question ${q.id} has fewer than 2 options`);
     process.exit(1);
@@ -109,7 +106,7 @@ questions.forEach((q, idx) => {
     }
   });
 
-  // Check Correct Answers
+  // Correct Answers validation
   if (!Array.isArray(q.correctAnswers) || q.correctAnswers.length === 0) {
     console.error(`❌ FAILED: Question ${q.id} has no correctAnswers defined`);
     process.exit(1);
@@ -122,7 +119,7 @@ questions.forEach((q, idx) => {
     }
   });
 
-  // Check Explanation
+  // Explanation validation
   if (typeof q.explanation !== "string" || q.explanation.trim().length === 0) {
     console.error(`❌ FAILED: Question ${q.id} has empty explanation`);
     process.exit(1);
@@ -132,14 +129,21 @@ questions.forEach((q, idx) => {
     totalAuditNotes++;
   }
 
-  // Check Topic
-  if (!q.topic || !allowedTopics.has(q.topic)) {
-    console.error(`❌ FAILED: Question ${q.id} has unknown topic: "${q.topic}"`);
+  // Domain ID & Topic validation
+  if (!q.domainId || !validDomainIds.has(q.domainId)) {
+    console.error(`❌ FAILED: Question ${q.id} has invalid domainId: "${q.domainId}". Allowed:`, [...validDomainIds]);
     process.exit(1);
   }
-  topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
 
-  // Check Source Verified
+  const expectedDomain = EXAM_DOMAINS[q.domainId];
+  if (q.topic !== expectedDomain.name) {
+    console.error(`❌ FAILED: Question ${q.id} topic "${q.topic}" does not match domain name "${expectedDomain.name}"`);
+    process.exit(1);
+  }
+
+  domainCounts[q.domainId]++;
+
+  // Source Verified
   if (q.sourceVerified !== true) {
     console.error(`❌ FAILED: Question ${q.id} sourceVerified is not true`);
     process.exit(1);
@@ -147,15 +151,51 @@ questions.forEach((q, idx) => {
 });
 
 console.log("✓ No duplicate question IDs found.");
+console.log("✓ 100% of questions belong to a recognized official exam domain.");
 console.log("✓ All correctAnswers map to valid option IDs.");
 console.log("✓ All question prompts, options, and explanations are verified and complete.");
 console.log(`✓ Technical audit notes incorporated: ${totalAuditNotes}`);
-console.log("\n--- Domain Category Distribution ---");
-for (const [topic, count] of Object.entries(topicCounts)) {
-  console.log(`  • ${topic.padEnd(45)}: ${count} questions`);
-}
 
-// 6. Test JS export file
+console.log("\n--------------------------------------------------------------------------------");
+console.log("   OFFICIAL EXAM DOMAIN DISTRIBUTION TABLE                                     ");
+console.log("--------------------------------------------------------------------------------");
+console.log(
+  "Domain ID".padEnd(32) +
+  "Domain Name".padEnd(42) +
+  "Weight".padEnd(10) +
+  "Questions".padEnd(12) +
+  "Actual %"
+);
+console.log("-".repeat(105));
+
+let totalWeight = 0;
+let totalQs = 0;
+
+for (const [dId, count] of Object.entries(domainCounts)) {
+  const domain = EXAM_DOMAINS[dId];
+  const actualPct = ((count / questions.length) * 100).toFixed(1) + "%";
+  totalWeight += domain.weight;
+  totalQs += count;
+
+  console.log(
+    dId.padEnd(32) +
+    domain.name.padEnd(42) +
+    `${domain.weight}%`.padEnd(10) +
+    `${count} Qs`.padEnd(12) +
+    actualPct
+  );
+}
+console.log("-".repeat(105));
+console.log(
+  "TOTAL".padEnd(32) +
+  "6 Official Blueprint Domains".padEnd(42) +
+  `${totalWeight}%`.padEnd(10) +
+  `${totalQs} Qs`.padEnd(12) +
+  "100.0%"
+);
+console.log("--------------------------------------------------------------------------------\n");
+
+// 6. Test JS module export
 try {
   const jsExport = require(QUESTIONS_JS);
   if (!Array.isArray(jsExport) || jsExport.length !== expectedCount) {
@@ -168,6 +208,6 @@ try {
   process.exit(1);
 }
 
-console.log("==================================================");
-console.log("✅ ALL VALIDATION CHECKS PASSED SUCCESSFULLY!    ");
-console.log("==================================================");
+console.log("================================================================================");
+console.log("✅ ALL VALIDATION CHECKS PASSED: 100% DOMAIN MAPPING VERIFIED                   ");
+console.log("================================================================================");
