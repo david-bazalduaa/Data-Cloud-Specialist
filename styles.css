@@ -287,8 +287,31 @@ code {
 }
 
 .password-icon-wrapper {
-  font-size: 2.8rem;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-cloud-card-svg {
+  display: inline-block;
+  filter: drop-shadow(0 0 16px rgba(0, 161, 224, 0.5));
+  animation: cloudFloat 3s ease-in-out infinite;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.sf-cloud-logo-svg {
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(0, 161, 224, 0.45));
+  transition: transform var(--anim-fast);
+}
+
+.brand-logo-badge:hover .sf-cloud-logo-svg {
+  transform: scale(1.08);
 }
 
 .password-card h2 {

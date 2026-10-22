@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'><path fill='%2300A1E0' d='M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z'/></svg>">
 </head>
 <body class="theme-slate">
 
@@ -26,24 +26,23 @@
   <!-- ===== PASSWORD GATE OVERLAY ===== -->
   <div class="password-overlay" id="password-overlay">
     <div class="password-card neumorphic-card">
-      <div class="password-badge">🔒 Certification Candidate Portal</div>
+      <div class="password-badge">🔒 Candidate Access Portal</div>
       <div class="password-icon-wrapper">
-        <span class="password-cloud-icon">⚡</span>
-        <span class="password-lock-icon">🛡️</span>
+        <svg class="sf-cloud-card-svg" viewBox="0 0 640 512" width="72" height="58" aria-label="Salesforce">
+          <path fill="#00A1E0" d="M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z"/>
+        </svg>
       </div>
       <h2>Data 360 Consultant Suite</h2>
-      <p>Enter the candidate access key to unlock the 6-domain practice platform.</p>
+      <p>Please enter your access key to unlock the 6-domain practice platform.</p>
       <form id="password-form" class="password-form" onsubmit="checkPassword(event)">
         <div class="password-input-wrapper">
-          <input type="password" id="password-input" placeholder="Access key (default: Salesforce2026)" required autofocus autocomplete="current-password">
-          <div class="password-error" id="password-error" style="display: none;">❌ Invalid key. Use default key: Salesforce2026</div>
+          <input type="password" id="password-input" placeholder="Enter access key" required autofocus autocomplete="current-password">
+          <div class="password-error" id="password-error" style="display: none;">❌ Incorrect access key. Please try again.</div>
         </div>
         <div class="password-btn-group">
-          <button type="submit" class="neumorphic-btn primary-btn">Unlock Suite</button>
-          <button type="button" class="neumorphic-btn" onclick="quickUnlock()">Quick Access (Demo)</button>
+          <button type="submit" class="neumorphic-btn primary-btn" style="width: 100%;">Unlock Suite</button>
         </div>
       </form>
-      <div class="password-hint">Candidate Access Key: <code>Salesforce2026</code></div>
     </div>
   </div>
 
@@ -52,7 +51,11 @@
     <div class="header-top">
       <!-- Brand -->
       <div class="header-brand">
-        <div class="brand-logo-badge neumorphic-emboss">⚡</div>
+        <div class="brand-logo-badge neumorphic-emboss" title="Salesforce Certified Data 360">
+          <svg class="sf-cloud-logo-svg" viewBox="0 0 640 512" width="30" height="24" aria-label="Salesforce">
+            <path fill="#00A1E0" d="M640 232c0 87.58-80 154.39-165.36 136.43-18.37 33-70.73 70.75-132.2 41.63-41.16 96.05-177.89 92.18-213.81-5.17C8.91 428.78-50.19 266.52 53.36 205.61 18.61 126.18 76 32 167.67 32a124.24 124.24 0 0 1 98.56 48.7c20.7-21.4 49.4-34.81 81.15-34.81 42.34 0 79 23.52 98.8 58.57C539 63.78 640 132.69 640 232z"/>
+          </svg>
+        </div>
         <div class="brand-text">
           <h1>
             Data 360 Consultant Simulator
