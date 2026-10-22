@@ -1,0 +1,21 @@
+{
+  "name": "salesforce-data-cloud-specialist-simulator",
+  "version": "1.0.0",
+  "description": "Interactive Salesforce Certified Data Cloud Specialist & Consultant Exam Simulator and Question Engine",
+  "main": "questions.js",
+  "scripts": {
+    "test": "node scripts/validate-questions.js",
+    "validate": "node scripts/validate-questions.js",
+    "parse": "node scripts/parse-and-build.js",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "salesforce",
+    "data-cloud",
+    "certification",
+    "exam-simulator",
+    "data-360"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "MIT"
+}
